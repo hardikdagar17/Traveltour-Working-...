@@ -1,0 +1,1239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gaur Travels | Travel You Dream - India's Premier Tour Guide & Tourism Platform</title>
+  <meta name="description" content="Experience unforgettable journeys with Gaur Travels. Verified tour guides, bespoke vacation packages, luxury stays, chauffeur cabs, air ticketing, and 24/7 travel assistance across North, South, East, and West India. Call +91 99718 59687.">
+  <link rel="icon" type="image/png" href="assets/images/favicon.png">
+  <link rel="apple-touch-icon" href="assets/images/favicon.png">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&family=Caveat:wght@600;700&family=Cabinet+Grotesk:wght@700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ==============================================
+       PLANE FLIGHT PRELOADER
+       ============================================== -->
+  <div id="flight-preloader" class="preloader">
+    <div class="preloader-content">
+      <div class="flight-radar">
+        <div class="radar-sweep"></div>
+        <div class="radar-dot dot-1"></div>
+        <div class="radar-dot dot-2"></div>
+        <div class="radar-dot dot-3"></div>
+      </div>
+      
+      <div class="runway-container">
+        <div class="cloud cloud-1"><i class="fa-solid fa-cloud"></i></div>
+        <div class="cloud cloud-2"><i class="fa-solid fa-cloud"></i></div>
+        <div class="flight-path">
+          <div class="flight-trail"></div>
+          <div class="preloader-plane">
+            <i class="fa-solid fa-plane-up"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="preloader-text">
+        <h2 class="brand-title"><span class="highlight">GAUR</span> TRAVELS</h2>
+        <p class="tagline">PREPARING YOUR DREAM JOURNEY...</p>
+        <div class="progress-bar-wrap">
+          <div class="progress-bar-fill" id="preloader-fill"></div>
+        </div>
+        <div class="boarding-status">
+          <span>Flight: <strong class="badge-code">GT-777</strong></span>
+          <span>Status: <strong class="boarding-blink">BOARDING NOW</strong></span>
+          <span id="load-percentage">0%</span>
+        </div>
+        <button id="skip-preloader-btn" class="skip-btn" aria-label="Skip intro">Skip to Site &rarr;</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==============================================
+       SCROLL PROGRESS WITH AIRPLANE INDICATOR
+       ============================================== -->
+  <div class="scroll-tracker-container">
+    <div class="scroll-tracker-fill" id="scroll-tracker-fill">
+      <div class="scroll-plane-marker" id="scroll-plane">
+        <i class="fa-solid fa-plane"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==============================================
+       TOP CONTACT & UTILITY BAR (Inspired by Image 1 & 3)
+       ============================================== -->
+  <div class="top-bar">
+    <div class="container top-bar-inner">
+      <div class="top-bar-left">
+        <a href="tel:+919971859687" class="top-info-item">
+          <i class="fa-solid fa-phone-volume icon-pulse"></i>
+          <span>+91 99718 59687</span>
+        </a>
+        <span class="bar-divider">•</span>
+        <a href="mailto:gaur.tourtravel04@gmail.com" class="top-info-item">
+          <i class="fa-solid fa-envelope"></i>
+          <span>gaur.tourtravel04@gmail.com</span>
+        </a>
+        <span class="bar-divider">•</span>
+        <span class="top-info-item badge-avail">
+          <i class="fa-solid fa-shield-halved"></i> Govt. Approved & Verified
+        </span>
+      </div>
+
+      <div class="top-bar-right">
+        <div class="currency-selector">
+          <i class="fa-solid fa-globe"></i>
+          <select id="currency-select" aria-label="Currency Selector">
+            <option value="INR">₹ INR (India)</option>
+            <option value="USD">$ USD (Global)</option>
+            <option value="EUR">€ EUR (Europe)</option>
+          </select>
+        </div>
+        <div class="top-socials">
+          <span>FOLLOW US:</span>
+          <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+          <a href="https://wa.me/919971859687?text=Hello%20Gaur%20Travels,%20I%20am%20interested%20in%20planning%20a%20tour!" target="_blank" rel="noopener" aria-label="WhatsApp" class="wa-top-btn"><i class="fa-brands fa-whatsapp"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==============================================
+       MAIN NAVIGATION HEADER
+       ============================================== -->
+  <header class="main-header" id="main-header">
+    <div class="container nav-container">
+      <a href="#" class="brand-logo" aria-label="Gaur Travels - Safar aapka, saath hamara">
+        <img src="assets/images/logo.png" alt="Gaur Travels - Safar aapka, saath hamara" class="brand-logo-img">
+      </a>
+
+      <nav class="nav-links" id="nav-links">
+        <a href="#destinations" class="nav-link active">Destinations</a>
+        <a href="#highlights" class="nav-link">Highlights</a>
+        <a href="#packages" class="nav-link">Tour Packages</a>
+        <a href="#calculator" class="nav-link">Cost Calculator</a>
+        <a href="#story" class="nav-link">Why Us</a>
+        <a href="#guides" class="nav-link">Our Guides</a>
+        <a href="#contact" class="nav-link">Contact</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="btn btn-outline" id="open-itinerary-btn">
+          <i class="fa-regular fa-calendar-check"></i> Custom Plan
+        </button>
+        <button class="btn btn-primary pulse-btn" id="open-book-modal-btn">
+          <span>Book Now</span>
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
+        <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle navigation menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==============================================
+       HERO CINEMATIC SECTION
+       ============================================== -->
+  <section class="hero-section" id="hero">
+    <div class="hero-slider">
+      <!-- Slide 1: North India Himalayas -->
+      <div class="hero-slide active" style="background-image: linear-gradient(rgba(14, 42, 36, 0.45), rgba(14, 42, 36, 0.75)), url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=2000&q=85');">
+        <div class="hero-slide-badge">Kashmir &amp; Himalayas</div>
+      </div>
+      <!-- Slide 2: West India Royal Forts -->
+      <div class="hero-slide" style="background-image: linear-gradient(rgba(14, 42, 36, 0.45), rgba(14, 42, 36, 0.75)), url('https://images.unsplash.com/photo-1477587458883-47145ed94245?auto=format&fit=crop&w=2000&q=85');">
+        <div class="hero-slide-badge">Rajasthan &amp; Heritage Forts</div>
+      </div>
+      <!-- Slide 3: South India Kerala Backwaters -->
+      <div class="hero-slide" style="background-image: linear-gradient(rgba(14, 42, 36, 0.45), rgba(14, 42, 36, 0.75)), url('https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=2000&q=85');">
+        <div class="hero-slide-badge">Kerala Backwaters &amp; Munnar</div>
+      </div>
+      <!-- Slide 4: East India Tea Gardens & Mountains -->
+      <div class="hero-slide" style="background-image: linear-gradient(rgba(14, 42, 36, 0.45), rgba(14, 42, 36, 0.75)), url('https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=2000&q=85');">
+        <div class="hero-slide-badge">Darjeeling &amp; Sikkim Hills</div>
+      </div>
+    </div>
+
+    <!-- Floating animated cloud particles -->
+    <div class="hero-clouds">
+      <div class="floating-cloud c1"></div>
+      <div class="floating-cloud c2"></div>
+    </div>
+
+    <div class="container hero-content">
+      <div class="hero-caption-wrap">
+        <div class="hero-pill-tag">
+          <i class="fa-solid fa-sparkles"></i> Rated #1 Tourism &amp; Tour Guide Platform in India
+        </div>
+        <h1 class="hero-title">
+          <span class="script-subtitle">Welcome to the Wonder</span>
+          TRAVEL YOU DREAM
+        </h1>
+        <p class="hero-desc">
+          Step into timeless palaces, misty mountain peaks, emerald backwaters, and untamed valleys. Gaur Travels delivers bespoke private tours, certified multilingual guides, luxury stays, and 24/7 personalized care.
+        </p>
+      </div>
+
+      <!-- Live Interactive Search & Booking Engine -->
+      <div class="hero-search-engine glass-card">
+        <div class="search-tabs">
+          <button class="search-tab active" data-type="all"><i class="fa-solid fa-compass"></i> All Tours</button>
+          <button class="search-tab" data-type="family"><i class="fa-solid fa-people-roof"></i> Family Vacations</button>
+          <button class="search-tab" data-type="honeymoon"><i class="fa-solid fa-heart"></i> Honeymoon Specials</button>
+          <button class="search-tab" data-type="heritage"><i class="fa-solid fa-monument"></i> Heritage &amp; Spiritual</button>
+          <button class="search-tab" data-type="adventure"><i class="fa-solid fa-mountain"></i> Mountain Adventure</button>
+        </div>
+
+        <form id="hero-quick-search-form" class="search-grid">
+          <div class="search-field">
+            <label><i class="fa-solid fa-map-pin"></i> Destination / Region</label>
+            <select id="search-region" required>
+              <option value="any">Explore All Regions (India)</option>
+              <option value="north">North India (Kashmir, Himachal, Leh)</option>
+              <option value="south">South India (Kerala, Tamil Nadu, Karnataka)</option>
+              <option value="west">West India (Rajasthan, Gujarat, Goa)</option>
+              <option value="east">East India (Darjeeling, Sikkim, Meghalaya)</option>
+              <option value="golden">Golden Triangle (Delhi - Agra - Jaipur)</option>
+            </select>
+          </div>
+
+          <div class="search-field">
+            <label><i class="fa-regular fa-calendar-days"></i> Travel Month</label>
+            <select id="search-month">
+              <option value="any">Flexible / Any Month</option>
+              <option value="oct">October - November 2026 (Festive &amp; Autumn)</option>
+              <option value="dec">December - January 2027 (Snow &amp; Winter Magic)</option>
+              <option value="feb">February - March 2027 (Spring Blossoms)</option>
+              <option value="apr">April - June 2027 (Cool Summer Escapes)</option>
+            </select>
+          </div>
+
+          <div class="search-field">
+            <label><i class="fa-solid fa-user-group"></i> Travelers</label>
+            <select id="search-guests">
+              <option value="couple">2 Adults (Couple / Friends)</option>
+              <option value="family">Family (3 - 5 Members)</option>
+              <option value="solo">Solo Traveler</option>
+              <option value="group">Large Group (6+ Members)</option>
+            </select>
+          </div>
+
+          <div class="search-field search-action">
+            <label class="invisible-label">Search</label>
+            <button type="submit" class="btn btn-accent search-submit-btn">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <span>Find My Dream Tour</span>
+            </button>
+          </div>
+        </form>
+
+        <div class="hero-quick-perks">
+          <span><i class="fa-solid fa-check"></i> Best Price Guarantee</span>
+          <span><i class="fa-solid fa-check"></i> Zero Hidden Charges</span>
+          <span><i class="fa-solid fa-check"></i> Certified Local Guides</span>
+          <span><i class="fa-solid fa-phone"></i> Instant Call: <strong>+91 99718 59687</strong></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero Slider Controls -->
+    <div class="hero-controls">
+      <button class="slider-arrow prev" id="slider-prev" aria-label="Previous Slide"><i class="fa-solid fa-chevron-left"></i></button>
+      <div class="slider-dots" id="slider-dots"></div>
+      <button class="slider-arrow next" id="slider-next" aria-label="Next Slide"><i class="fa-solid fa-chevron-right"></i></button>
+    </div>
+  </section>
+
+  <!-- ==============================================
+       DESTINATIONS SECTION (Direct Match to Image 1 Layout)
+       ============================================== -->
+  <section class="destinations-section section-padding" id="destinations">
+    <div class="container">
+      <div class="section-title-wrap text-center">
+        <h2 class="vintage-heading">TRAVEL YOU DREAM</h2>
+        
+        <!-- Cloud / Ribbon Badge matching Image 1 -->
+        <div class="ribbon-badge-container">
+          <div class="cloud-badge">
+            <span>DESTINATIONS</span>
+          </div>
+        </div>
+        <p class="section-lead">
+          Explore India's four magnificent corners with tailor-made itineraries crafted by true local experts.
+        </p>
+      </div>
+
+      <!-- The 4 Distinct Regional Cards from Image 1 -->
+      <div class="destinations-grid">
+        
+        <!-- 1. West India -->
+        <div class="region-card" data-region="west" tabindex="0">
+          <div class="card-inner-frame">
+            <div class="region-image-box">
+              <img src="https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=800&q=80" alt="West India historic fort" loading="lazy">
+              <div class="region-overlay">
+                <div class="overlay-pill"><i class="fa-solid fa-crown"></i> Royal Heritage</div>
+                <div class="overlay-details">
+                  <p class="dest-spots">Jaipur • Udaipur • Jaisalmer • Gwalior Fort • Rann of Kutch</p>
+                  <span class="explore-hint">Click to explore curated tours &rarr;</span>
+                </div>
+              </div>
+            </div>
+            <div class="region-footer-label">
+              <h3>West India</h3>
+              <span class="tours-count">14 Exclusive Itineraries</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. North India -->
+        <div class="region-card" data-region="north" tabindex="0">
+          <div class="card-inner-frame">
+            <div class="region-image-box">
+              <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80" alt="North India snow mountains" loading="lazy">
+              <div class="region-overlay">
+                <div class="overlay-pill"><i class="fa-solid fa-snowflake"></i> Snow &amp; Valleys</div>
+                <div class="overlay-details">
+                  <p class="dest-spots">Kashmir • Leh Ladakh • Manali • Shimla • Spiti Valley</p>
+                  <span class="explore-hint">Click to explore curated tours &rarr;</span>
+                </div>
+              </div>
+            </div>
+            <div class="region-footer-label">
+              <h3>North India</h3>
+              <span class="tours-count">18 Exclusive Itineraries</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. South India -->
+        <div class="region-card" data-region="south" tabindex="0">
+          <div class="card-inner-frame">
+            <div class="region-image-box">
+              <img src="https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=800&q=80" alt="South India Kerala houseboat" loading="lazy">
+              <div class="region-overlay">
+                <div class="overlay-pill"><i class="fa-solid fa-water"></i> Backwaters &amp; Greenery</div>
+                <div class="overlay-details">
+                  <p class="dest-spots">Alleppey Houseboats • Munnar • Ooty • Coorg • Hampi</p>
+                  <span class="explore-hint">Click to explore curated tours &rarr;</span>
+                </div>
+              </div>
+            </div>
+            <div class="region-footer-label">
+              <h3>South India</h3>
+              <span class="tours-count">16 Exclusive Itineraries</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. East India -->
+        <div class="region-card" data-region="east" tabindex="0">
+          <div class="card-inner-frame">
+            <div class="region-image-box">
+              <img src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=80" alt="East India tea hills" loading="lazy">
+              <div class="region-overlay">
+                <div class="overlay-pill"><i class="fa-solid fa-leaf"></i> Cloud Forests &amp; Peaks</div>
+                <div class="overlay-details">
+                  <p class="dest-spots">Darjeeling Toy Train • Gangtok • Shillong • Cherrapunji • Tawang</p>
+                  <span class="explore-hint">Click to explore curated tours &rarr;</span>
+                </div>
+              </div>
+            </div>
+            <div class="region-footer-label">
+              <h3>East India</h3>
+              <span class="tours-count">12 Exclusive Itineraries</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Quick CTA Button matching Image 1 -->
+      <div class="destinations-cta text-center">
+        <button class="btn btn-gold btn-large pulse-glow" id="cta-book-destinations">
+          <span>BOOK NOW</span>
+          <span class="btn-arrow-circle"><i class="fa-solid fa-angles-right"></i></span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==============================================
+       HIGHLIGHTS SECTION (Direct Match to Image 1 Layout)
+       ============================================== -->
+  <section class="highlights-section section-padding" id="highlights">
+    <div class="container">
+      <div class="highlights-header text-center">
+        <div class="chalk-divider">
+          <span class="line"></span>
+          <h2 class="highlights-title">HIGHLIGHTS</h2>
+          <span class="line"></span>
+        </div>
+        <p class="highlights-sub">Comprehensive all-in-one travel logistics engineered for seamless comfort</p>
+      </div>
+
+      <!-- The 6 Iconic Highlight Service Badges from Image 1 -->
+      <div class="highlights-grid">
+        
+        <!-- 1. Air Tickets -->
+        <div class="highlight-item" data-service="flight">
+          <div class="highlight-icon-wrap">
+            <i class="fa-solid fa-plane-departure"></i>
+          </div>
+          <h3 class="highlight-label">Air Tickets</h3>
+          <p class="highlight-desc">Domestic &amp; international bookings at unadvertised corporate partner rates.</p>
+          <span class="service-tag">Instant Confirm</span>
+        </div>
+
+        <!-- 2. Hotels -->
+        <div class="highlight-item" data-service="hotels">
+          <div class="highlight-icon-wrap">
+            <i class="fa-solid fa-hotel"></i>
+          </div>
+          <h3 class="highlight-label">Hotels</h3>
+          <p class="highlight-desc">Heritage Havelis, luxury 5-star resorts, private villas &amp; cozy mountain cottages.</p>
+          <span class="service-tag">Verified Hygiene</span>
+        </div>
+
+        <!-- 3. City Tour -->
+        <div class="highlight-item" data-service="cab">
+          <div class="highlight-icon-wrap">
+            <i class="fa-solid fa-car-side"></i>
+          </div>
+          <h3 class="highlight-label">City Tour</h3>
+          <p class="highlight-desc">AC Sedans, luxury Innova Crysta &amp; tempo travellers with vetted courteous chauffeurs.</p>
+          <span class="service-tag">Chauffeur Driven</span>
+        </div>
+
+        <!-- 4. Guide -->
+        <div class="highlight-item" data-service="guide">
+          <div class="highlight-icon-wrap">
+            <i class="fa-solid fa-person-hiking"></i>
+          </div>
+          <h3 class="highlight-label">Guide</h3>
+          <p class="highlight-desc">Govt.-certified historians &amp; multilingual storytellers bringing monuments to life.</p>
+          <span class="service-tag">Govt. Certified</span>
+        </div>
+
+        <!-- 5. Pick & Drop -->
+        <div class="highlight-item" data-service="transfer">
+          <div class="highlight-icon-wrap">
+            <i class="fa-solid fa-map-location-dot"></i>
+          </div>
+          <h3 class="highlight-label">Pick &amp; Drop</h3>
+          <p class="highlight-desc">Punctual 24/7 airport, railway station &amp; intercity door-to-door transit.</p>
+          <span class="service-tag">Zero Wait Time</span>
+        </div>
+
+        <!-- 6. Travel Insurance -->
+        <div class="highlight-item" data-service="insurance">
+          <div class="highlight-icon-wrap">
+            <i class="fa-solid fa-shield-heart"></i>
+          </div>
+          <h3 class="highlight-label">Travel Insurance</h3>
+          <p class="highlight-desc">Complete medical, luggage, cancellation &amp; emergency evacuation coverage.</p>
+          <span class="service-tag">100% Peace of Mind</span>
+        </div>
+
+      </div>
+
+      <div class="highlights-bottom-banner">
+        <div class="banner-content">
+          <div class="banner-icon"><i class="fa-solid fa-headset"></i></div>
+          <div class="banner-text">
+            <h4>Need a customized combination for your trip?</h4>
+            <p>Our tour architects can build an all-inclusive custom itinerary within 30 minutes.</p>
+          </div>
+        </div>
+        <a href="tel:+919971859687" class="btn btn-light-outline">
+          <i class="fa-solid fa-phone"></i> Call +91 99718 59687
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==============================================
+       FEATURED TOUR PACKAGES SECTION
+       ============================================== -->
+  <section class="packages-section section-padding" id="packages">
+    <div class="container">
+      <div class="section-title-wrap text-center">
+        <span class="section-badge">HANDCRAFTED EXPERIENCES</span>
+        <h2 class="section-heading">India's Most Loved Tour Itineraries</h2>
+        <p class="section-lead">Transparent pricing, premium stays, private sanitized vehicles, and top-rated guides.</p>
+      </div>
+
+      <!-- Filter Tabs -->
+      <div class="package-filters">
+        <button class="filter-btn active" data-filter="all">All Packages</button>
+        <button class="filter-btn" data-filter="north">North India</button>
+        <button class="filter-btn" data-filter="south">South India</button>
+        <button class="filter-btn" data-filter="west">West India</button>
+        <button class="filter-btn" data-filter="east">East India</button>
+        <button class="filter-btn" data-filter="golden">Golden Triangle</button>
+      </div>
+
+      <!-- Tour Cards Grid -->
+      <div class="packages-grid" id="packages-container">
+        <!-- Injected via JavaScript for instant responsiveness and currency conversion -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ==============================================
+       INTERACTIVE TOUR COST ESTIMATOR
+       ============================================== -->
+  <section class="calculator-section section-padding" id="calculator">
+    <div class="container">
+      <div class="calc-wrapper glass-panel">
+        <div class="calc-header text-center">
+          <span class="section-badge">INSTANT TRANSPARENCY</span>
+          <h2 class="section-heading text-white">Smart Tour Cost Calculator</h2>
+          <p class="text-light">Configure your dream itinerary in seconds and receive an instant transparent estimate with zero hidden surprises.</p>
+        </div>
+
+        <div class="calc-body">
+          <div class="calc-steps-grid">
+            
+            <!-- Step 1: Destination -->
+            <div class="calc-card">
+              <div class="step-num">1</div>
+              <h4>Choose Region</h4>
+              <div class="calc-options" id="calc-region-options">
+                <button type="button" class="opt-btn active" data-value="north">North India (Himalayas)</button>
+                <button type="button" class="opt-btn" data-value="west">West India (Royal Forts)</button>
+                <button type="button" class="opt-btn" data-value="south">South India (Backwaters)</button>
+                <button type="button" class="opt-btn" data-value="east">East India (Tea &amp; Hills)</button>
+              </div>
+            </div>
+
+            <!-- Step 2: Duration -->
+            <div class="calc-card">
+              <div class="step-num">2</div>
+              <h4>Duration &amp; Days</h4>
+              <div class="calc-options" id="calc-duration-options">
+                <button type="button" class="opt-btn" data-days="4" data-nights="3">4 Days / 3 Nights</button>
+                <button type="button" class="opt-btn active" data-days="6" data-nights="5">6 Days / 5 Nights</button>
+                <button type="button" class="opt-btn" data-days="8" data-nights="7">8 Days / 7 Nights</button>
+                <button type="button" class="opt-btn" data-days="10" data-nights="9">10 Days / 9 Nights</button>
+              </div>
+            </div>
+
+            <!-- Step 3: Hotel Tier -->
+            <div class="calc-card">
+              <div class="step-num">3</div>
+              <h4>Hotel Category</h4>
+              <div class="calc-options" id="calc-hotel-options">
+                <button type="button" class="opt-btn" data-multiplier="1.0">Comfort 3-Star</button>
+                <button type="button" class="opt-btn active" data-multiplier="1.35">Deluxe 4-Star Resort</button>
+                <button type="button" class="opt-btn" data-multiplier="1.85">Luxury 5-Star Heritage</button>
+              </div>
+            </div>
+
+            <!-- Step 4: Vehicle Type -->
+            <div class="calc-card">
+              <div class="step-num">4</div>
+              <h4>Private Chauffeur Vehicle</h4>
+              <div class="calc-options" id="calc-cab-options">
+                <button type="button" class="opt-btn" data-car-rate="2500">AC Sedan (Dzire / Etios)</button>
+                <button type="button" class="opt-btn active" data-car-rate="3800">SUV (Innova Crysta)</button>
+                <button type="button" class="opt-btn" data-car-rate="5500">Luxury Tempo Traveller</button>
+              </div>
+            </div>
+
+            <!-- Step 5: Travelers & Add-ons -->
+            <div class="calc-card">
+              <div class="step-num">5</div>
+              <h4>Travelers &amp; Guides</h4>
+              <div class="guest-slider-wrap">
+                <label for="calc-guest-count">Number of Travelers: <strong id="guest-count-label">2 Adults</strong></label>
+                <input type="range" id="calc-guest-count" min="1" max="12" value="2" step="1">
+              </div>
+
+              <div class="addons-list">
+                <label class="checkbox-pill">
+                  <input type="checkbox" id="calc-guide-toggle" checked>
+                  <span><i class="fa-solid fa-flag"></i> Govt. Certified Tour Guide (+₹2,000/day)</span>
+                </label>
+                <label class="checkbox-pill">
+                  <input type="checkbox" id="calc-insurance-toggle" checked>
+                  <span><i class="fa-solid fa-shield-heart"></i> Comprehensive Travel Insurance (+₹450/person)</span>
+                </label>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Live Summary Bill Box -->
+          <div class="calc-summary-card">
+            <div class="summary-top">
+              <div class="summary-title">
+                <i class="fa-solid fa-receipt"></i>
+                <h3>Estimated Package Cost</h3>
+              </div>
+              <span class="tax-note">All Inclusions: Stays + Cab + Meals + Fuel &amp; Taxes</span>
+            </div>
+
+            <div class="price-big-display">
+              <span class="curr-symbol">₹</span>
+              <span class="total-amount" id="calc-total-price">38,500</span>
+              <span class="per-person-tag">Total for <span id="summary-guest-display">2</span> Travelers</span>
+            </div>
+
+            <div class="summary-breakdown" id="calc-breakdown">
+              <div class="break-line"><span>Hotels &amp; Breakfast:</span> <strong id="break-hotel">₹22,000</strong></div>
+              <div class="break-line"><span>Dedicated Chauffeur &amp; Cab:</span> <strong id="break-cab">₹19,000</strong></div>
+              <div class="break-line"><span>Certified Guide:</span> <strong id="break-guide">₹10,000</strong></div>
+              <div class="break-line"><span>Insurance &amp; Tolls:</span> <strong id="break-extra">₹900</strong></div>
+            </div>
+
+            <div class="summary-actions">
+              <button class="btn btn-gold btn-block" id="calc-whatsapp-book">
+                <i class="fa-brands fa-whatsapp"></i> Book This Estimate on WhatsApp
+              </button>
+              <button class="btn btn-outline-white btn-block" id="calc-open-modal">
+                <i class="fa-solid fa-paper-plane"></i> Request Customized Quotation
+              </button>
+            </div>
+            <p class="calc-disclaimer">*Subject to peak holiday seasonality. Exact custom quotes provided within 30 mins.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==============================================
+       STORY & WHY GAUR TRAVELS (Direct Match to Image 2 Style)
+       ============================================== -->
+  <section class="story-section section-padding" id="story">
+    <div class="container">
+      <div class="story-grid">
+        
+        <!-- Left: Audraverse style Bio and Philosophy -->
+        <div class="story-content">
+          <div class="story-lead-badge">
+            <span>Welcome to the Gaur Travels Family</span>
+          </div>
+          <h2 class="story-heading">
+            Hi, We are <span class="highlight-text">Gaur Travels!</span>
+          </h2>
+          <div class="script-banner-text">
+            ....TRAVEL, ....PASSION, ....LIFESTYLE
+          </div>
+          <p class="story-paragraph">
+            Born out of an uncompromising love for the diverse cultural tapestry of India, <strong>Gaur Travels</strong> was founded to transform ordinary vacations into legendary journeys. From the sun-bleached ramparts of Rajasthan's mighty forts to the quiet morning mist over Kashmir's Dal Lake, we believe travel is not just about visiting places—it is about feeling them deeply.
+          </p>
+          <p class="story-paragraph">
+            Unlike impersonal booking engines, we personally curate every mile. We verify hotel beds, hand-pick drivers with flawless safety records, and assign certified local historians who share secrets never found in guidebooks. When you travel with us, you are never just a booking number; you are our honored guest.
+          </p>
+
+          <div class="story-founder-quote">
+            <i class="fa-solid fa-quote-left quote-icon"></i>
+            <blockquote>
+              "Our mission is simple: to make Gaur Travels the safest, most inspiring, and cherished tourism platform in India. Nothing else comes close."
+            </blockquote>
+            <div class="founder-sig">
+              <strong>— Team Gaur Travels</strong>
+              <span>Head Tour Director &amp; Curators</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Interactive Fun Facts Box (Inspired by Image 2's blue card) -->
+        <div class="story-interactive-card">
+          <div class="fun-facts-container">
+            <div class="fun-facts-header">
+              <h3>FUN FACTS ABOUT GAUR TRAVELS</h3>
+              <i class="fa-solid fa-certificate"></i>
+            </div>
+            
+            <div class="stat-bars-list">
+              
+              <div class="stat-bar-item">
+                <div class="stat-label-wrap">
+                  <span class="stat-name">Govt. Verified Guides</span>
+                  <span class="stat-val">100%</span>
+                </div>
+                <div class="stat-track"><div class="stat-fill" style="width: 100%;"></div></div>
+              </div>
+
+              <div class="stat-bar-item">
+                <div class="stat-label-wrap">
+                  <span class="stat-name">Handpicked Luxury &amp; Heritage Stays</span>
+                  <span class="stat-val">100%</span>
+                </div>
+                <div class="stat-track"><div class="stat-fill" style="width: 100%;"></div></div>
+              </div>
+
+              <div class="stat-bar-item">
+                <div class="stat-label-wrap">
+                  <span class="stat-name">Transparent Pricing (Zero Hidden Fees)</span>
+                  <span class="stat-val">100%</span>
+                </div>
+                <div class="stat-track"><div class="stat-fill" style="width: 100%;"></div></div>
+              </div>
+
+              <div class="stat-bar-item">
+                <div class="stat-label-wrap">
+                  <span class="stat-name">24/7 Roadside &amp; Emergency Concierge</span>
+                  <span class="stat-val">100%</span>
+                </div>
+                <div class="stat-track"><div class="stat-fill" style="width: 100%;"></div></div>
+              </div>
+
+              <div class="stat-bar-item">
+                <div class="stat-label-wrap">
+                  <span class="stat-name">Personalized Customized Itineraries</span>
+                  <span class="stat-val">100%</span>
+                </div>
+                <div class="stat-track"><div class="stat-fill" style="width: 100%;"></div></div>
+              </div>
+
+              <div class="stat-bar-item">
+                <div class="stat-label-wrap">
+                  <span class="stat-name">Delighted Happy Travelers</span>
+                  <span class="stat-val">15,000+</span>
+                </div>
+                <div class="stat-track"><div class="stat-fill" style="width: 98%;"></div></div>
+              </div>
+
+            </div>
+
+            <!-- Direct Instant Contact Badge inside Card -->
+            <div class="card-contact-strip">
+              <div class="strip-item">
+                <i class="fa-solid fa-phone"></i>
+                <div>
+                  <small>Call Our Travel Desk</small>
+                  <strong>+91 99718 59687</strong>
+                </div>
+              </div>
+              <div class="strip-item">
+                <i class="fa-solid fa-envelope"></i>
+                <div>
+                  <small>Official Support</small>
+                  <strong>gaur.tourtravel04@gmail.com</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==============================================
+       VERIFIED TOUR GUIDES SPOTLIGHT
+       ============================================== -->
+  <section class="guides-section section-padding" id="guides">
+    <div class="container">
+      <div class="section-title-wrap text-center">
+        <span class="section-badge">LOCAL STORYTELLERS</span>
+        <h2 class="section-heading">Meet Our Certified Tour Guides</h2>
+        <p class="section-lead">Each guide is certified by the Ministry of Tourism, police verified, and fluent in multiple languages.</p>
+      </div>
+
+      <div class="guides-grid">
+        
+        <!-- Guide 1: Rajasthan Heritage -->
+        <div class="guide-card">
+          <div class="guide-avatar-wrap">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80" alt="Vikram Singh" loading="lazy">
+            <span class="guide-badge-pill"><i class="fa-solid fa-shield-check"></i> Certified</span>
+          </div>
+          <div class="guide-info">
+            <h3>Vikramaditya Rathore</h3>
+            <span class="guide-spec"><i class="fa-solid fa-landmark"></i> Rajasthan &amp; Gwalior Forts</span>
+            <p class="guide-bio">12 years narrating royal dynasties, fort architecture, and secret palace folklore. Speaks English, Hindi, and French.</p>
+            <div class="guide-tags">
+              <span>English</span>
+              <span>Hindi</span>
+              <span>French</span>
+              <span>⭐ 4.98 (320+ Tours)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Guide 2: Kashmir & Ladakh Peaks -->
+        <div class="guide-card">
+          <div class="guide-avatar-wrap">
+            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80" alt="Farooq Mir" loading="lazy">
+            <span class="guide-badge-pill"><i class="fa-solid fa-shield-check"></i> Certified</span>
+          </div>
+          <div class="guide-info">
+            <h3>Farooq Ahmad Mir</h3>
+            <span class="guide-spec"><i class="fa-solid fa-mountain-sun"></i> Kashmir Valley &amp; Ladakh</span>
+            <p class="guide-bio">High-altitude mountaineer and cultural scholar. Expert on Gulmarg, Sonamarg, and Dal Lake Shikara traditions.</p>
+            <div class="guide-tags">
+              <span>English</span>
+              <span>Hindi</span>
+              <span>Kashmiri</span>
+              <span>⭐ 5.0 (410+ Tours)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Guide 3: Kerala & Backwaters -->
+        <div class="guide-card">
+          <div class="guide-avatar-wrap">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80" alt="Ananya Menon" loading="lazy">
+            <span class="guide-badge-pill"><i class="fa-solid fa-shield-check"></i> Certified</span>
+          </div>
+          <div class="guide-info">
+            <h3>Ananya Menon</h3>
+            <span class="guide-spec"><i class="fa-solid fa-water"></i> Kerala, Munnar &amp; Hampi</span>
+            <p class="guide-bio">Botanist and heritage conservationist specializing in Spice plantations, Kathakali culture, and Alleppey backwater ecology.</p>
+            <div class="guide-tags">
+              <span>English</span>
+              <span>Malayalam</span>
+              <span>German</span>
+              <span>⭐ 4.96 (280+ Tours)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Guide 4: Darjeeling & North East -->
+        <div class="guide-card">
+          <div class="guide-avatar-wrap">
+            <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80" alt="Tenzing Lepcha" loading="lazy">
+            <span class="guide-badge-pill"><i class="fa-solid fa-shield-check"></i> Certified</span>
+          </div>
+          <div class="guide-info">
+            <h3>Tenzing Lepcha</h3>
+            <span class="guide-spec"><i class="fa-solid fa-leaf"></i> Darjeeling, Sikkim &amp; Meghalaya</span>
+            <p class="guide-bio">Specialist in Himalayan tea gardens, Buddhist monasteries, living root bridges, and high-altitude flora &amp; fauna.</p>
+            <div class="guide-tags">
+              <span>English</span>
+              <span>Nepali</span>
+              <span>Hindi</span>
+              <span>⭐ 4.99 (265+ Tours)</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==============================================
+       TESTIMONIALS & TRAVELER REVIEWS
+       ============================================== -->
+  <section class="reviews-section section-padding" id="reviews">
+    <div class="container">
+      <div class="section-title-wrap text-center">
+        <span class="section-badge">VERIFIED TRAVELERS</span>
+        <h2 class="section-heading">Stories From Happy Explorers</h2>
+        <p class="section-lead">Over 1,200+ 5-star ratings on Google &amp; TripAdvisor.</p>
+      </div>
+
+      <div class="testimonials-carousel" id="reviews-container">
+        <!-- Review Cards -->
+        <div class="review-card">
+          <div class="review-stars">
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+          </div>
+          <p class="review-text">
+            "Booking our Kashmir family tour with Gaur Travels was hands down the best decision we made! Our driver Mr. Bashir was exceptionally polite, the houseboat was pure luxury, and every checkpoint was hassle-free. Truly unmatchable service!"
+          </p>
+          <div class="reviewer-meta">
+            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80" alt="Aarohi Sharma" loading="lazy">
+            <div>
+              <strong>Aarohi &amp; Rahul Sharma</strong>
+              <small>New Delhi • Kashmir 6D/5N Package</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="review-card">
+          <div class="review-stars">
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+          </div>
+          <p class="review-text">
+            "The Rajasthan Royal Heritage itinerary curated by Gaur Travels felt like something out of a movie! From the private sunrise tour of Mehrangarh Fort to the desert camp in Jaisalmer, their team handled every single detail flawlessly."
+          </p>
+          <div class="reviewer-meta">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80" alt="Marcus Weber" loading="lazy">
+            <div>
+              <strong>Marcus Weber</strong>
+              <small>Munich, Germany • Rajasthan 8D/7N Package</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="review-card">
+          <div class="review-stars">
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+          </div>
+          <p class="review-text">
+            "Their 24/7 on-call coordinator was always just a phone call away. When our flight into Kochi was delayed by 3 hours, their pickup cab was still waiting for us with bottled water and warm smiles. Gaur Travels is gold standard!"
+          </p>
+          <div class="reviewer-meta">
+            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=150&q=80" alt="Priya Kulkarni" loading="lazy">
+            <div>
+              <strong>Priya &amp; Sameer Kulkarni</strong>
+              <small>Pune • Kerala Backwaters 5D/4N Package</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==============================================
+       INTERACTIVE BOOKING & INQUIRY FORM
+       ============================================== -->
+  <section class="contact-section section-padding" id="contact">
+    <div class="container">
+      <div class="contact-card-wrapper">
+        <div class="contact-info-column">
+          <span class="section-badge badge-light">GET IN TOUCH</span>
+          <h2 class="contact-title">Let’s Plan Your Next Grand Adventure</h2>
+          <p class="contact-desc">
+            Speak directly with our senior travel curators or send an instant inquiry. We guarantee a detailed itinerary and transparent pricing within 30 minutes.
+          </p>
+
+          <div class="contact-details-list">
+            <div class="contact-detail-item">
+              <div class="detail-icon"><i class="fa-solid fa-phone-volume"></i></div>
+              <div class="detail-content">
+                <span>Call Directly / 24x7 Helpline:</span>
+                <a href="tel:+919971859687" class="lead-link">+91 99718 59687</a>
+              </div>
+            </div>
+
+            <div class="contact-detail-item">
+              <div class="detail-icon"><i class="fa-brands fa-whatsapp"></i></div>
+              <div class="detail-content">
+                <span>Instant WhatsApp Desk:</span>
+                <a href="https://wa.me/919971859687?text=Hi%20Gaur%20Travels,%20I%20would%20like%20to%20plan%20a%20tour" target="_blank" rel="noopener" class="lead-link">Chat on +91 99718 59687</a>
+              </div>
+            </div>
+
+            <div class="contact-detail-item">
+              <div class="detail-icon"><i class="fa-solid fa-envelope-open-text"></i></div>
+              <div class="detail-content">
+                <span>Email Inquiries &amp; Quotations:</span>
+                <a href="mailto:gaur.tourtravel04@gmail.com" class="lead-link">gaur.tourtravel04@gmail.com</a>
+              </div>
+            </div>
+
+            <div class="contact-detail-item">
+              <div class="detail-icon"><i class="fa-solid fa-clock"></i></div>
+              <div class="detail-content">
+                <span>Operating Hours:</span>
+                <p>Mon - Sun: 7:00 AM - 11:30 PM (Emergency Assistance: 24/7)</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="guarantee-badge">
+            <i class="fa-solid fa-shield-halved"></i>
+            <div>
+              <strong>100% Privacy &amp; Data Protected</strong>
+              <small>No spam, ever. Your contact information is never shared.</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Form Column -->
+        <div class="contact-form-column">
+          <form id="main-booking-form" class="inquiry-form">
+            <h3 class="form-title">Request Free Custom Itinerary</h3>
+            <p class="form-sub">Fill out the quick form below and our team will get back to you promptly.</p>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="form-name"><i class="fa-regular fa-user"></i> Full Name *</label>
+                <input type="text" id="form-name" required placeholder="e.g. Rahul Sharma">
+              </div>
+              <div class="form-group">
+                <label for="form-phone"><i class="fa-solid fa-phone"></i> Mobile / WhatsApp No. *</label>
+                <input type="tel" id="form-phone" required placeholder="e.g. +91 98765 43210">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="form-email"><i class="fa-regular fa-envelope"></i> Email Address</label>
+                <input type="email" id="form-email" placeholder="e.g. rahul@example.com">
+              </div>
+              <div class="form-group">
+                <label for="form-destination"><i class="fa-solid fa-map-location-dot"></i> Dream Destination *</label>
+                <select id="form-destination" required>
+                  <option value="">Select Destination</option>
+                  <option value="North India - Kashmir & Ladakh">North India - Kashmir &amp; Ladakh</option>
+                  <option value="West India - Rajasthan Heritage">West India - Rajasthan &amp; Gwalior</option>
+                  <option value="South India - Kerala Backwaters">South India - Kerala &amp; Munnar</option>
+                  <option value="East India - Darjeeling & Sikkim">East India - Darjeeling &amp; Sikkim</option>
+                  <option value="Golden Triangle - Delhi Agra Jaipur">Golden Triangle - Delhi, Agra, Jaipur</option>
+                  <option value="Custom Multi-City Tour">Custom Multi-City India Tour</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="form-date"><i class="fa-regular fa-calendar-days"></i> Tentative Travel Date</label>
+                <input type="date" id="form-date">
+              </div>
+              <div class="form-group">
+                <label for="form-travelers"><i class="fa-solid fa-users"></i> Number of Travelers</label>
+                <select id="form-travelers">
+                  <option value="2 Adults (Couple)">2 Adults (Couple)</option>
+                  <option value="3 to 5 Adults (Family)">3 to 5 Adults (Family)</option>
+                  <option value="Family with Kids">Family with Children</option>
+                  <option value="Solo Traveler">Solo Traveler</option>
+                  <option value="Group 6+ Travelers">Group 6+ Travelers</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="form-notes"><i class="fa-regular fa-comment-dots"></i> Special Preferences / Message</label>
+              <textarea id="form-notes" rows="3" placeholder="Tell us about your interests: e.g. Luxury stays, veg food, specific sightseeing, cab type..."></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-gold btn-block form-submit-btn">
+              <i class="fa-solid fa-paper-plane"></i>
+              <span>Get Instant Free Quote &amp; Itinerary</span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==============================================
+       BOTTOM BRAND FOOTER (Inspired by Image 1's dark green bar)
+       ============================================== -->
+  <footer class="main-footer">
+    <!-- Top banner with the 3 contact points matching Image 1 layout -->
+    <div class="footer-highlight-bar">
+      <div class="container footer-bar-grid">
+        <div class="bar-col">
+          <i class="fa-solid fa-globe"></i>
+          <span>www.gaurtravels.in</span>
+        </div>
+        <div class="bar-col">
+          <i class="fa-solid fa-phone"></i>
+          <a href="tel:+919971859687">+91 99718 59687</a>
+        </div>
+        <div class="bar-col">
+          <i class="fa-solid fa-envelope"></i>
+          <a href="mailto:gaur.tourtravel04@gmail.com">gaur.tourtravel04@gmail.com</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Footer Body -->
+    <div class="footer-body">
+      <div class="container footer-grid">
+        <div class="footer-brand-col">
+          <div class="footer-logo">
+            <div class="footer-logo-badge">
+              <img src="assets/images/logo.png" alt="Gaur Travels - Safar aapka, saath hamara" class="footer-logo-img">
+            </div>
+          </div>
+          <p class="f-desc">
+            India's most trusted tour guide and comprehensive tourism logistics platform. Crafting timeless memories with verified guides, luxury stays, private transit, and 24/7 care.
+          </p>
+          <div class="footer-social-icons">
+            <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+            <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+            <a href="https://wa.me/919971859687" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+          </div>
+        </div>
+
+        <div class="footer-links-col">
+          <h4>Destinations</h4>
+          <ul>
+            <li><a href="#destinations" data-filter="north">North India (Kashmir &amp; Himachal)</a></li>
+            <li><a href="#destinations" data-filter="west">West India (Rajasthan &amp; Gwalior)</a></li>
+            <li><a href="#destinations" data-filter="south">South India (Kerala &amp; Munnar)</a></li>
+            <li><a href="#destinations" data-filter="east">East India (Darjeeling &amp; Sikkim)</a></li>
+            <li><a href="#destinations" data-filter="golden">Golden Triangle (Delhi, Agra, Jaipur)</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links-col">
+          <h4>Our Highlights</h4>
+          <ul>
+            <li><a href="#highlights">Air Ticket Bookings</a></li>
+            <li><a href="#highlights">Luxury Resort &amp; Hotel Stays</a></li>
+            <li><a href="#highlights">City Tours &amp; Chauffeur Cabs</a></li>
+            <li><a href="#highlights">Govt. Certified Tour Guides</a></li>
+            <li><a href="#highlights">Airport Pick &amp; Drop Transfers</a></li>
+            <li><a href="#highlights">Comprehensive Travel Insurance</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links-col">
+          <h4>Direct Support</h4>
+          <p class="foot-support-text">
+            Have questions or ready to book? Talk directly with our senior travel coordinator:
+          </p>
+          <a href="tel:+919971859687" class="foot-call-box">
+            <i class="fa-solid fa-phone"></i>
+            <div>
+              <small>Helpline Number</small>
+              <strong>+91 99718 59687</strong>
+            </div>
+          </a>
+          <a href="mailto:gaur.tourtravel04@gmail.com" class="foot-email-box">
+            <i class="fa-solid fa-envelope"></i>
+            <span>gaur.tourtravel04@gmail.com</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Copyright Sub-bar -->
+    <div class="footer-copyright-bar">
+      <div class="container copy-inner">
+        <p>&copy; 2026 Gaur Travels. All rights reserved. Crafted with passion for extraordinary journeys.</p>
+        <div class="copy-links">
+          <a href="#story">Privacy Policy</a>
+          <span>•</span>
+          <a href="#story">Terms of Service</a>
+          <span>•</span>
+          <a href="#contact">Sitemap</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==============================================
+       FLOATING ACTION BUTTONS (WhatsApp & Instant Call)
+       ============================================== -->
+  <div class="floating-actions">
+    <!-- WhatsApp Floating Bubble with Badge -->
+    <a href="https://wa.me/919971859687?text=Hello%20Gaur%20Travels!%20I%20would%20like%20to%20inquire%20about%20a%20tour%20package." target="_blank" rel="noopener" class="float-btn float-wa" aria-label="Chat on WhatsApp">
+      <i class="fa-brands fa-whatsapp"></i>
+      <span class="float-tooltip">Chat with Gaur Travels 💬</span>
+      <span class="online-pulse"></span>
+    </a>
+
+    <!-- Quick Call Floating Button -->
+    <a href="tel:+919971859687" class="float-btn float-phone" aria-label="Call Gaur Travels">
+      <i class="fa-solid fa-phone"></i>
+      <span class="float-tooltip">Call +91 99718 59687</span>
+    </a>
+
+    <!-- Back to top button -->
+    <button id="back-to-top" class="float-btn float-top" aria-label="Back to top">
+      <i class="fa-solid fa-plane-up"></i>
+    </button>
+  </div>
+
+  <!-- ==============================================
+       INTERACTIVE MODAL: TOUR DETAILS & DAY-WISE ITINERARY
+       ============================================== -->
+  <div id="itinerary-modal" class="modal-backdrop" aria-hidden="true">
+    <div class="modal-dialog glass-panel">
+      <button class="modal-close" id="modal-close-btn" aria-label="Close Modal">&times;</button>
+      
+      <div class="modal-hero-header" id="modal-header-banner">
+        <div class="modal-tag" id="modal-pkg-region">North India</div>
+        <h3 id="modal-pkg-title">Kashmir Paradise Tour</h3>
+        <p id="modal-pkg-duration">6 Days / 5 Nights • Luxury Stays &amp; Shikara Included</p>
+      </div>
+
+      <div class="modal-body">
+        <div class="modal-specs-bar">
+          <div class="spec-cell"><i class="fa-solid fa-hotel"></i> <span id="modal-spec-hotel">5-Star Resorts</span></div>
+          <div class="spec-cell"><i class="fa-solid fa-car"></i> <span id="modal-spec-cab">AC Innova Crysta</span></div>
+          <div class="spec-cell"><i class="fa-solid fa-person-hiking"></i> <span id="modal-spec-guide">Local Guide</span></div>
+          <div class="spec-cell"><i class="fa-solid fa-utensils"></i> <span id="modal-spec-meals">Daily Breakfast &amp; Dinner</span></div>
+        </div>
+
+        <h4 class="itinerary-title"><i class="fa-solid fa-route"></i> Day-by-Day Journey Plan</h4>
+        <div class="timeline" id="modal-timeline">
+          <!-- Injected via JS -->
+        </div>
+
+        <div class="modal-pricing-box">
+          <div class="price-side">
+            <small>Package Price Starts At:</small>
+            <h3 id="modal-price-display">₹24,999 <span>/ person</span></h3>
+          </div>
+          <div class="modal-cta-side">
+            <button class="btn btn-gold" id="modal-book-now-btn">
+              <i class="fa-brands fa-whatsapp"></i> Reserve on WhatsApp
+            </button>
+            <a href="tel:+919971859687" class="btn btn-outline-white">
+              <i class="fa-solid fa-phone"></i> Call +91 99718 59687
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==============================================
+       INTERACTIVE MODAL: QUICK BOOKING MODAL
+       ============================================== -->
+  <div id="quick-book-modal" class="modal-backdrop" aria-hidden="true">
+    <div class="modal-dialog modal-small glass-panel">
+      <button class="modal-close" id="quick-modal-close-btn" aria-label="Close Modal">&times;</button>
+      <div class="modal-header-simple">
+        <div class="modal-icon"><i class="fa-solid fa-plane-departure"></i></div>
+        <h3>Book Your Dream Journey</h3>
+        <p>Direct assistance with Gaur Travels • Response in under 30 mins</p>
+      </div>
+      <div class="modal-body">
+        <form id="modal-quick-form">
+          <div class="form-group">
+            <label><i class="fa-regular fa-user"></i> Your Name *</label>
+            <input type="text" id="qb-name" required placeholder="Enter full name">
+          </div>
+          <div class="form-group">
+            <label><i class="fa-solid fa-phone"></i> Contact Phone *</label>
+            <input type="tel" id="qb-phone" required placeholder="e.g. +91 99718 59687">
+          </div>
+          <div class="form-group">
+            <label><i class="fa-solid fa-map-pin"></i> Interested Destination *</label>
+            <input type="text" id="qb-dest" required placeholder="e.g. Kashmir, Rajasthan, Kerala, Darjeeling">
+          </div>
+          <div class="form-group">
+            <label><i class="fa-solid fa-comment"></i> Quick Note / Questions</label>
+            <textarea id="qb-notes" rows="2" placeholder="Dates, number of travelers, budget..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-gold btn-block">
+            <i class="fa-brands fa-whatsapp"></i> Send Booking via WhatsApp
+          </button>
+          <div class="text-center mt-2">
+            <small class="text-light">Or call us instantly at <strong><a href="tel:+919971859687" class="text-gold">+91 99718 59687</a></strong></small>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Main JavaScript File -->
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+{
+  "name": "gaur-travels-fullstack",
+  "version": "2.0.0",
+  "description": "Full-Stack Tour Guide & Tourism Platform for Gaur Travels",
+  "main": "backend/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node backend/server.js",
+    "server": "node --watch backend/server.js",
+    "client": "npm --prefix frontend run dev",
+    "build": "npm --prefix frontend run build"
+  },
+  "keywords": [
+    "gaur-travels",
+    "tourism",
+    "react",
+    "vite",
+    "express",
+    "fullstack"
+  ],
+  "author": "Gaur Travels"
+}

@@ -1,5 +1,5 @@
 /**
- * GAUR TRAVELS - Interactive Application Logic
+ * GAUR TRAVEL - Interactive Application Logic
  * Helpline: +91 99718 59687 | Email: gaur.tourtravel04@gmail.com
  */
 
@@ -510,7 +510,7 @@ function renderPackages(filter) {
       const pkgId = btn.getAttribute('data-book-id');
       const selected = tourPackagesData.find(p => p.id === pkgId);
       if (selected) {
-        const text = encodeURIComponent(`Hello Gaur Travels (+91 99718 59687), I am interested in booking: ${selected.title} (${selected.duration}) for ₹${selected.priceINR.toLocaleString()} per person.`);
+        const text = encodeURIComponent(`Hello Gaur Travel (+91 99718 59687), I am interested in booking: ${selected.title} (${selected.duration}) for ₹${selected.priceINR.toLocaleString()} per person.`);
         window.open(`https://wa.me/919971859687?text=${text}`, '_blank');
       }
     });
@@ -598,7 +598,7 @@ function initTourCalculator() {
         east: 'East India (Darjeeling & Sikkim Hills)'
       };
       const totalAmount = document.getElementById('calc-total-price').textContent;
-      const message = `Hello Gaur Travels! I created an estimate on your website calculator:
+      const message = `Hello Gaur Travel! I created an estimate on your website calculator:
 • Destination: ${regionNames[calcState.region]}
 • Duration: ${calcState.days} Days / ${calcState.nights} Nights
 • Travelers: ${calcState.guests}
@@ -755,7 +755,7 @@ function openItineraryModal(pkg) {
   const bookBtn = document.getElementById('modal-book-now-btn');
   if (bookBtn) {
     bookBtn.onclick = () => {
-      const text = encodeURIComponent(`Hi Gaur Travels (+91 99718 59687)! I want to book: ${pkg.title} (${pkg.duration}) priced at ${formatPrice(pkg.priceINR)}. Please share available dates.`);
+      const text = encodeURIComponent(`Hi Gaur Travel (+91 99718 59687)! I want to book: ${pkg.title} (${pkg.duration}) priced at ${formatPrice(pkg.priceINR)}. Please share available dates.`);
       window.open(`https://wa.me/919971859687?text=${text}`, '_blank');
     };
   }
@@ -810,7 +810,7 @@ function initForms() {
 
       // Prompt WhatsApp option
       setTimeout(() => {
-        const text = encodeURIComponent(`Hello Gaur Travels (+91 99718 59687),
+        const text = encodeURIComponent(`Hello Gaur Travel (+91 99718 59687),
 Inquiry #${bookingRef}:
 • Name: ${name}
 • Phone: ${phone}
@@ -839,10 +839,10 @@ Looking forward to your itinerary!`);
       const notes = document.getElementById('qb-notes').value || 'General inquiry';
 
       closeModals();
-      showToast(`Thanks ${name}! Directing you to WhatsApp with Gaur Travels (+91 99718 59687)...`, 'success');
+      showToast(`Thanks ${name}! Directing you to WhatsApp with Gaur Travel (+91 99718 59687)...`, 'success');
 
       setTimeout(() => {
-        const text = encodeURIComponent(`Hi Gaur Travels (+91 99718 59687)!
+        const text = encodeURIComponent(`Hi Gaur Travel (+91 99718 59687)!
 Name: ${name}
 Phone: ${phone}
 Interested Destination: ${dest}

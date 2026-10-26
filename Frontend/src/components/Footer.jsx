@@ -10,7 +10,7 @@ export default function Footer({ onSelectRegion }) {
         <div className="container footer-highlight-trio">
           <div className="trio-item">
             <Globe size={20} />
-            <span>www.gaurtravels.in</span>
+            <span>www.gaurtravel.in</span>
           </div>
           <div className="trio-item">
             <Phone size={20} />
@@ -31,7 +31,7 @@ export default function Footer({ onSelectRegion }) {
               <a 
                 href="#" 
                 onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }} 
-                aria-label="Gaur Travels - Safar aapka, saath hamara"
+                aria-label="Gaur Travel - Safar aapka, saath hamara"
               >
                 <div style={{
                   display: 'inline-block',
@@ -43,7 +43,7 @@ export default function Footer({ onSelectRegion }) {
                 }}>
                   <img 
                     src={logoImg} 
-                    alt="Gaur Travels - Safar aapka, saath hamara" 
+                    alt="Gaur Travel - Safar aapka, saath hamara" 
                     style={{ height: '54px', width: 'auto', display: 'block', objectFit: 'contain' }} 
                   />
                 </div>
@@ -56,7 +56,15 @@ export default function Footer({ onSelectRegion }) {
 
             <div style={{ display: 'flex', gap: '10px' }}>
               <a href="#" className="social-icon-btn"><i className="fa-brands fa-facebook-f"></i></a>
-              <a href="#" className="social-icon-btn"><i className="fa-brands fa-instagram"></i></a>
+              <a
+                href="https://www.instagram.com/gaurtravel04?dlrf=bzZ6czBucG8yeW43"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Instagram"
+                className="social-icon-btn"
+              >
+                <i className="fa-brands fa-instagram"></i>
+              </a>
               <a href="#" className="social-icon-btn"><i className="fa-brands fa-linkedin-in"></i></a>
               <a href="#" className="social-icon-btn"><i className="fa-brands fa-youtube"></i></a>
               <a href="https://wa.me/919971859687" target="_blank" rel="noreferrer" className="social-icon-btn wa-btn">
@@ -139,7 +147,7 @@ export default function Footer({ onSelectRegion }) {
       {/* Copyright */}
       <div className="footer-copy-subbar">
         <div className="container copy-flex-row">
-          <p>&copy; 2026 Gaur Travels. All rights reserved. Crafted with passion for extraordinary journeys.</p>
+          <p>&copy; 2026 Gaur Travel. All rights reserved. Crafted with passion for extraordinary journeys.</p>
           <div style={{ display: 'flex', gap: '14px' }}>
             <a href="#story">Privacy Policy</a>
             <span>•</span>

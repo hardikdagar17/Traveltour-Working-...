@@ -1,7 +1,7 @@
 {
   "name": "gaur-travels-backend",
   "version": "1.0.0",
-  "description": "Backend API server for Gaur Travels tour guide and tourism platform",
+  "description": "Backend API server for Gaur Travel tour guide and tourism platform",
   "main": "server.js",
   "type": "module",
   "scripts": {

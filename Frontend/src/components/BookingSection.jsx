@@ -4,6 +4,7 @@ import confetti from 'canvas-confetti';
 import { submitBooking } from '../services/api';
 
 export default function BookingSection({ onBookingConfirmed }) {
+  const [mobileTab, setMobileTab] = useState('form'); // 'form' | 'channels'
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -64,16 +65,39 @@ export default function BookingSection({ onBookingConfirmed }) {
   return (
     <section className="booking-section-wrapper section-padding" id="contact">
       <div className="container">
+        {/* Mobile View Toggle Bar (Mobile Screens Only) */}
+        <div className="mobile-view-toggle-bar booking-toggle">
+          <span className="toggle-label">Booking Mode:</span>
+          <div className="toggle-pill-group">
+            <button
+              type="button"
+              className={`toggle-pill-btn ${mobileTab === 'form' ? 'active' : ''}`}
+              onClick={() => setMobileTab('form')}
+            >
+              <Send size={13} />
+              <span>Itinerary Form</span>
+            </button>
+            <button
+              type="button"
+              className={`toggle-pill-btn ${mobileTab === 'channels' ? 'active' : ''}`}
+              onClick={() => setMobileTab('channels')}
+            >
+              <Phone size={13} />
+              <span>Direct Helplines</span>
+            </button>
+          </div>
+        </div>
+
         <div className="booking-split-panel">
-          {/* Left: Contact Info */}
-          <div className="booking-info-pane">
+          {/* Left: Contact Info (Visible on desktop + on mobile when 'channels' active) */}
+          <div className={`booking-info-pane ${mobileTab === 'form' ? 'hide-on-mobile' : ''}`}>
             <span className="section-badge-pill" style={{ background: 'rgba(255, 255, 255, 0.15)', color: '#fde047' }}>
               DIRECT REACH
             </span>
-            <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '2.4rem', fontWeight: 900, lineHeight: 1.2, margin: '12px 0 16px' }}>
+            <h2 className="booking-pane-title">
               Let’s Plan Your Next Grand Adventure
             </h2>
-            <p style={{ color: 'rgba(255, 255, 255, 0.8)', fontSize: '0.96rem', lineHeight: 1.6 }}>
+            <p className="booking-pane-desc">
               Speak directly with our senior travel curators or send an instant inquiry. We guarantee a detailed itinerary and transparent pricing within 30 minutes.
             </p>
 
@@ -94,7 +118,7 @@ export default function BookingSection({ onBookingConfirmed }) {
                 </div>
                 <div className="channel-text-info">
                   <span>Instant WhatsApp Desk:</span>
-                  <a href="https://wa.me/919971859687?text=Hi%20Gaur%20Travels,%20I%20would%20like%20to%20plan%20a%20tour" target="_blank" rel="noreferrer" style={{ color: '#ffffff' }}>
+                  <a href="https://wa.me/919971859687?text=Hi%20Gaur%20Travel,%20I%20would%20like%20to%20plan%20a%20tour" target="_blank" rel="noreferrer" style={{ color: '#ffffff' }}>
                     <strong>Chat on +91 99718 59687</strong>
                   </a>
                 </div>
@@ -111,6 +135,18 @@ export default function BookingSection({ onBookingConfirmed }) {
               </div>
 
               <div className="channel-line-item">
+                <div className="channel-bubble" style={{ background: 'linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%)', color: '#fff' }}>
+                  <i className="fa-brands fa-instagram"></i>
+                </div>
+                <div className="channel-text-info">
+                  <span>Official Instagram:</span>
+                  <a href="https://www.instagram.com/gaurtravel04?dlrf=bzZ6czBucG8yeW43" target="_blank" rel="noreferrer" style={{ color: '#fde047' }}>
+                    <strong>@gaurtravel04</strong>
+                  </a>
+                </div>
+              </div>
+
+              <div className="channel-line-item">
                 <div className="channel-bubble"><Clock size={20} /></div>
                 <div className="channel-text-info">
                   <span>Operating Hours:</span>
@@ -121,15 +157,7 @@ export default function BookingSection({ onBookingConfirmed }) {
               </div>
             </div>
 
-            <div style={{
-              marginTop: 'auto',
-              background: 'rgba(255, 255, 255, 0.08)',
-              padding: '16px',
-              borderRadius: '12px',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '12px'
-            }}>
+            <div className="booking-trust-guarantee">
               <ShieldCheck size={28} color="#4ade80" />
               <div>
                 <strong style={{ display: 'block', fontSize: '0.88rem' }}>100% Privacy &amp; Data Protected</strong>
@@ -138,12 +166,12 @@ export default function BookingSection({ onBookingConfirmed }) {
             </div>
           </div>
 
-          {/* Right: Booking Form */}
-          <div className="booking-form-pane">
-            <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.8rem', fontWeight: 800, color: '#0f172a', marginBottom: '6px' }}>
+          {/* Right: Booking Form (Visible on desktop + on mobile when 'form' active) */}
+          <div className={`booking-form-pane ${mobileTab === 'channels' ? 'hide-on-mobile' : ''}`}>
+            <h3 className="booking-form-title">
               Request Free Custom Itinerary
             </h3>
-            <p style={{ color: '#64748b', fontSize: '0.9rem', marginBottom: '24px' }}>
+            <p className="booking-form-desc">
               Fill out the form below and our team will get back to you promptly.
             </p>
 
@@ -233,8 +261,7 @@ export default function BookingSection({ onBookingConfirmed }) {
               <button
                 type="submit"
                 disabled={loading}
-                className="btn btn-gold btn-block"
-                style={{ padding: '16px', fontSize: '1.05rem', marginTop: '8px' }}
+                className="btn btn-gold btn-block booking-submit-btn"
               >
                 <Send size={18} />
                 <span>{loading ? 'Submitting to Backend...' : 'Get Instant Free Quote & Itinerary'}</span>

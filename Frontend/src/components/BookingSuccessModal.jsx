@@ -31,7 +31,7 @@ export default function BookingSuccessModal({ bookingResult, isOpen, onClose }) 
           Booking Inquiry Confirmed!
         </h3>
         <p style={{ color: '#64748b', fontSize: '0.92rem', marginBottom: '20px' }}>
-          Your itinerary request is saved in the Gaur Travels reservation database.
+          Your itinerary request is saved in the Gaur Travel reservation database.
         </p>
 
         {/* Voucher Badge */}

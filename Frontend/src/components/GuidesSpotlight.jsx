@@ -1,17 +1,19 @@
 import React from 'react';
 import { ShieldCheck, Star } from 'lucide-react';
 
-export default function GuidesSpotlight({ guides }) {
+export default function GuidesSpotlight({ guides, isAccordion = false }) {
   return (
-    <section className="guides-wrapper section-padding" id="guides">
-      <div className="container">
-        <div className="text-center">
-          <span className="section-badge-pill">LOCAL STORYTELLERS</span>
-          <h2 className="section-title">Meet Our Certified Tour Guides</h2>
-          <p className="section-lead-text">
-            Each guide is certified by the Ministry of Tourism, police-verified, and fluent in multiple languages.
-          </p>
-        </div>
+    <section className={`guides-wrapper ${isAccordion ? 'is-in-accordion' : 'section-padding'}`} id={isAccordion ? undefined : 'guides'}>
+      <div className={isAccordion ? 'accordion-inner-container' : 'container'}>
+        {!isAccordion && (
+          <div className="text-center">
+            <span className="section-badge-pill">LOCAL STORYTELLERS</span>
+            <h2 className="section-title">Meet Our Certified Tour Guides</h2>
+            <p className="section-lead-text">
+              Each guide is certified by the Ministry of Tourism, police-verified, and fluent in multiple languages.
+            </p>
+          </div>
+        )}
 
         <div className="guides-four-grid">
           {guides && guides.map((guide) => (

@@ -1,8 +1,57 @@
 import React, { useState, useEffect } from 'react';
-import { Calculator, MapPin, Calendar, Hotel, Car, Users, ShieldCheck, CheckCircle2 } from 'lucide-react';
+import { Calculator, MapPin, Calendar, Hotel, Car, Users, ShieldCheck, CheckCircle2, Table, LayoutGrid, ArrowRight } from 'lucide-react';
 import { calculateCost } from '../services/api';
 
+const POPULAR_RATES_MATRIX = [
+  {
+    id: 'north-6d',
+    region: 'North India',
+    route: 'Kashmir & Himalayas (6D/5N)',
+    coupleINR: 38400,
+    familyINR: 64800,
+    inclusions: 'Innova + 4-Star + Guide',
+    whatsAppMsg: 'Hello Gaur Travel! I want to book North India (Kashmir & Himalayas, 6D/5N).'
+  },
+  {
+    id: 'west-6d',
+    region: 'West India',
+    route: 'Rajasthan Royal Forts (6D/5N)',
+    coupleINR: 36200,
+    familyINR: 61400,
+    inclusions: 'AC Cab + Heritage Resort + Guide',
+    whatsAppMsg: 'Hello Gaur Travel! I want to book West India (Rajasthan Royal Forts, 6D/5N).'
+  },
+  {
+    id: 'south-6d',
+    region: 'South India',
+    route: 'Kerala Backwaters & Munnar (6D/5N)',
+    coupleINR: 39500,
+    familyINR: 66200,
+    inclusions: 'Houseboat + AC Cab + Guide',
+    whatsAppMsg: 'Hello Gaur Travel! I want to book South India (Kerala Backwaters & Munnar, 6D/5N).'
+  },
+  {
+    id: 'east-6d',
+    region: 'East India',
+    route: 'Darjeeling & Sikkim Hills (6D/5N)',
+    coupleINR: 34900,
+    familyINR: 58900,
+    inclusions: 'Mountain Cab + Hill Resort + Guide',
+    whatsAppMsg: 'Hello Gaur Travel! I want to book East India (Darjeeling & Sikkim Hills, 6D/5N).'
+  },
+  {
+    id: 'gt-4d',
+    region: 'Golden Triangle',
+    route: 'Delhi, Agra & Jaipur (4D/3N)',
+    coupleINR: 26500,
+    familyINR: 44800,
+    inclusions: 'Chauffeur Sedan + 5-Star Stay + Guide',
+    whatsAppMsg: 'Hello Gaur Travel! I want to book Golden Triangle (Delhi, Agra & Jaipur, 4D/3N).'
+  }
+];
+
 export default function TourCostCalculator({ formatPrice, currency, onWhatsAppBook }) {
+  const [mobileCalcMode, setMobileCalcMode] = useState('table'); // 'table' | 'custom'
   const [region, setRegion] = useState('north');
   const [duration, setDuration] = useState({ days: 6, nights: 5 });
   const [hotelTier, setHotelTier] = useState('deluxe');
@@ -62,7 +111,7 @@ export default function TourCostCalculator({ formatPrice, currency, onWhatsAppBo
       east: 'East India (Darjeeling & Sikkim Hills)'
     };
 
-    const text = `Hello Gaur Travels (+91 99718 59687)!
+    const text = `Hello Gaur Travel (+91 99718 59687)!
 I calculated an estimate on your website calculator:
 • Region: ${regionNames[region]}
 • Duration: ${duration.days} Days / ${duration.nights} Nights
@@ -74,6 +123,16 @@ I calculated an estimate on your website calculator:
 • Total Estimate: ₹${calculation.totalINR.toLocaleString()}
 
 Please provide confirmed availability and itinerary options.`;
+
+    window.open(`https://wa.me/919971859687?text=${encodeURIComponent(text)}`, '_blank');
+  };
+
+  const handleBookMatrixRow = (item) => {
+    const text = `${item.whatsAppMsg}
+• Package: ${item.route}
+• Estimated Couple Cost: ${formatPrice(item.coupleINR)}
+• Inclusions: ${item.inclusions}
+Please share complete details & departure dates!`;
 
     window.open(`https://wa.me/919971859687?text=${encodeURIComponent(text)}`, '_blank');
   };
@@ -90,7 +149,78 @@ Please provide confirmed availability and itinerary options.`;
             </p>
           </div>
 
-          <div className="calc-two-columns">
+          {/* Mobile View Toggle (Mobile Screens Only) */}
+          <div className="mobile-view-toggle-bar">
+            <span className="toggle-label">Calculator View:</span>
+            <div className="toggle-pill-group">
+              <button
+                type="button"
+                className={`toggle-pill-btn ${mobileCalcMode === 'table' ? 'active' : ''}`}
+                onClick={() => setMobileCalcMode('table')}
+              >
+                <Table size={13} />
+                <span>Quick Rates Table</span>
+              </button>
+              <button
+                type="button"
+                className={`toggle-pill-btn ${mobileCalcMode === 'custom' ? 'active' : ''}`}
+                onClick={() => setMobileCalcMode('custom')}
+              >
+                <Calculator size={13} />
+                <span>Custom Estimator</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Mobile Pre-calculated Rates Table (Mobile Screens Only when selected) */}
+          {mobileCalcMode === 'table' && (
+            <div className="calc-table-wrapper mobile-only-table">
+              <table className="compact-calc-table">
+                <thead>
+                  <tr>
+                    <th>Trip &amp; Route</th>
+                    <th>Couple (2p)</th>
+                    <th>Family (4p)</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {POPULAR_RATES_MATRIX.map((row) => (
+                    <tr key={row.id}>
+                      <td className="calc-table-route-cell">
+                        <strong>{row.region}</strong>
+                        <span>{row.route}</span>
+                        <small className="calc-table-inc-tag">{row.inclusions}</small>
+                      </td>
+                      <td className="calc-table-price-cell">
+                        <strong>{formatPrice(row.coupleINR)}</strong>
+                        <small>all-inclusive</small>
+                      </td>
+                      <td className="calc-table-price-cell">
+                        <strong>{formatPrice(row.familyINR)}</strong>
+                        <small>all-inclusive</small>
+                      </td>
+                      <td className="calc-table-action-cell">
+                        <button
+                          type="button"
+                          className="table-mini-btn gold"
+                          onClick={() => handleBookMatrixRow(row)}
+                        >
+                          Book
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <div className="calc-table-note">
+                <ShieldCheck size={14} color="#059669" />
+                <span>Includes sanitized AC cab, verified hotel stays, fuel, tolls &amp; driver charges.</span>
+              </div>
+            </div>
+          )}
+
+          <div className={`calc-two-columns ${mobileCalcMode === 'table' ? 'hide-on-mobile' : ''}`}>
             {/* Options Side */}
             <div>
               {/* Step 1: Region */}

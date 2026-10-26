@@ -20,7 +20,7 @@ export default function FloatingActions() {
     <div className="floating-widget-stack">
       {/* WhatsApp Floating Desk */}
       <a
-        href="https://wa.me/919971859687?text=Hello%20Gaur%20Travels!%20I%20am%20interested%20in%20planning%20a%20tour%20package."
+        href="https://wa.me/919971859687?text=Hello%20Gaur%20Travel!%20I%20am%20interested%20in%20planning%20a%20tour%20package."
         target="_blank"
         rel="noreferrer"
         className="float-action-circle float-wa-circle"
@@ -33,7 +33,7 @@ export default function FloatingActions() {
       <a
         href="tel:+919971859687"
         className="float-action-circle float-phone-circle"
-        aria-label="Call Gaur Travels"
+        aria-label="Call Gaur Travel"
       >
         <Phone size={22} />
       </a>

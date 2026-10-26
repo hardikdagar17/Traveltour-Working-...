@@ -1,4 +1,4 @@
-# Gaur Travels - Full-Stack Tourism & Tour Guide Platform
+# Gaur Travel - Full-Stack Tourism & Tour Guide Platform
 
 > **"Travel You Dream"** — India's Premier Tour Guide & Comprehensive Tourism Platform.  
 > Rebuilt with **React + Vite**, a bright and luxurious color palette, and a dedicated **Node.js / Express** backend.
@@ -39,10 +39,10 @@
   - 4 regional exploration cards: **West India**, **North India**, **South India**, **East India**
   - 6 iconic highlights badges: **Air Tickets**, **Hotels**, **City Tour**, **Guide**, **Pick & Drop**, **Travel Insurance**
   - Pill-shaped **BOOK NOW ≫** CTA button
-  - Footer highlight bar with `www.gaurtravels.in`, phone `+91 99718 59687`, and email `gaur.tourtravel04@gmail.com`
+  - Footer highlight bar with `www.gaurtravel.in`, phone `+91 99718 59687`, and email `gaur.tourtravel04@gmail.com`
 - **Image 2 Match (Audraverse Inspiration):**
-  - Bio introducing Team Gaur Travels with the signature phrase `...TRAVEL, ...PASSION, ...LIFESTYLE`
-  - Iconic bright blue **"FUN FACTS ABOUT GAUR TRAVELS"** card with animated progress bars:
+  - Bio introducing Team Gaur Travel with the signature phrase `...TRAVEL, ...PASSION, ...LIFESTYLE`
+  - Iconic bright blue **"FUN FACTS ABOUT GAUR TRAVEL"** card with animated progress bars:
     - *Govt. Verified Guides:* **100%**
     - *Handpicked Luxury & Heritage Stays:* **100%**
     - *Transparent Pricing:* **100%**
@@ -74,7 +74,7 @@ npm --prefix frontend run dev
 ## 📂 Directory Structure
 
 ```
-c:\Users\Hardik Dagar\OneDrive\Documents\Gaur Travels\
+c:\Users\Hardik Dagar\OneDrive\Documents\Gaur Travel\
 ├── backend/
 │   ├── data/
 │   │   ├── bookings.json       # Persistent bookings store

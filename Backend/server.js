@@ -320,7 +320,7 @@ const INITIAL_REVIEWS = [
     location: 'New Delhi',
     tour: 'Kashmir Paradise (6D/5N)',
     rating: 5,
-    comment: 'Booking our Kashmir tour with Gaur Travels was hands down the best decision we made! Our driver Mr. Bashir was exceptionally polite, the houseboat was pure luxury, and every checkpoint was hassle-free. Truly unmatchable service!',
+    comment: 'Booking our Kashmir tour with Gaur Travel was hands down the best decision we made! Our driver Mr. Bashir was exceptionally polite, the houseboat was pure luxury, and every checkpoint was hassle-free. Truly unmatchable service!',
     avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80',
     date: 'October 2026'
   },
@@ -330,7 +330,7 @@ const INITIAL_REVIEWS = [
     location: 'Munich, Germany',
     tour: 'Rajasthan & Gwalior (8D/7N)',
     rating: 5,
-    comment: 'The Rajasthan Royal Heritage itinerary curated by Gaur Travels felt like a royal fairy tale. Private sunrise tour of Mehrangarh Fort, seamless transfers, and transparent pricing. Superb team!',
+    comment: 'The Rajasthan Royal Heritage itinerary curated by Gaur Travel felt like a royal fairy tale. Private sunrise tour of Mehrangarh Fort, seamless transfers, and transparent pricing. Superb team!',
     avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80',
     date: 'September 2026'
   },
@@ -340,7 +340,7 @@ const INITIAL_REVIEWS = [
     location: 'Pune',
     tour: 'Kerala Backwaters & Munnar (6D/5N)',
     rating: 5,
-    comment: 'Their 24/7 on-call coordinator was always just a phone call away. When our flight into Kochi was delayed, their pickup cab was still waiting for us with bottled water and smiles. Gaur Travels is the gold standard!',
+    comment: 'Their 24/7 on-call coordinator was always just a phone call away. When our flight into Kochi was delayed, their pickup cab was still waiting for us with bottled water and smiles. Gaur Travel is the gold standard!',
     avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=150&q=80',
     date: 'October 2026'
   }
@@ -360,7 +360,7 @@ app.get('/api/health', (req, res) => {
   res.json({
     status: 'online',
     timestamp: new Date().toISOString(),
-    platform: 'Gaur Travels',
+    platform: 'Gaur Travel',
     phone: '+91 99718 59687',
     email: 'gaur.tourtravel04@gmail.com',
     message: 'Backend API is fully operational'
@@ -519,7 +519,7 @@ app.post('/api/bookings', (req, res) => {
     writeJSON(BOOKINGS_FILE, bookings);
 
     // Generate direct WhatsApp link for instant booking confirmation
-    const waText = encodeURIComponent(`Hello Gaur Travels (+91 99718 59687)!
+    const waText = encodeURIComponent(`Hello Gaur Travel (+91 99718 59687)!
 I have confirmed my booking inquiry:
 Booking ID: ${bookingRef}
 Name: ${name}
@@ -611,6 +611,6 @@ app.post('/api/reviews', (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`✈️ Gaur Travels Backend Server running on http://localhost:${PORT}`);
+  console.log(`✈️ Gaur Travel Backend Server running on http://localhost:${PORT}`);
   console.log(`📞 Official Contact: +91 99718 59687 | Email: gaur.tourtravel04@gmail.com`);
 });

@@ -64,7 +64,8 @@ export default function HeroSection({ onSearchTours }) {
 
       <div className="container hero-center-content text-center">
         <div className="hero-badge-tag">
-          <Sparkles size={16} /> Rated #1 Tourism &amp; Tour Guide Platform in India
+          <Sparkles size={16} />
+          <span>Rated #1 Tourism &amp; Tour Guide Platform in India</span>
         </div>
 
         <h1 className="hero-headline">
@@ -78,7 +79,7 @@ export default function HeroSection({ onSearchTours }) {
 
         {/* Live Search Engine Box */}
         <div className="hero-search-box">
-          <div className="search-theme-pills">
+          <div className="search-theme-pills" role="tablist" aria-label="Tour Theme Selector">
             <button
               type="button"
               className={`theme-pill-btn ${activeTab === 'all' ? 'active' : ''}`}
@@ -119,8 +120,9 @@ export default function HeroSection({ onSearchTours }) {
           <form onSubmit={handleSearchSubmit}>
             <div className="search-fields-row">
               <div className="search-field-item">
-                <label><MapPin size={15} /> Select Destination</label>
+                <label htmlFor="hero-destination-select"><MapPin size={15} /> Select Destination</label>
                 <select
+                  id="hero-destination-select"
                   value={searchRegion}
                   onChange={(e) => setSearchRegion(e.target.value)}
                 >
@@ -133,8 +135,9 @@ export default function HeroSection({ onSearchTours }) {
               </div>
 
               <div className="search-field-item">
-                <label><Calendar size={15} /> Month of Travel</label>
+                <label htmlFor="hero-month-select"><Calendar size={15} /> Month of Travel</label>
                 <select
+                  id="hero-month-select"
                   value={searchMonth}
                   onChange={(e) => setSearchMonth(e.target.value)}
                 >
@@ -147,8 +150,9 @@ export default function HeroSection({ onSearchTours }) {
               </div>
 
               <div className="search-field-item">
-                <label><Users size={15} /> Travelers</label>
+                <label htmlFor="hero-guests-select"><Users size={15} /> Travelers</label>
                 <select
+                  id="hero-guests-select"
                   value={searchGuests}
                   onChange={(e) => setSearchGuests(e.target.value)}
                 >
@@ -159,8 +163,8 @@ export default function HeroSection({ onSearchTours }) {
                 </select>
               </div>
 
-              <div className="search-field-item">
-                <button type="submit" className="btn btn-gold btn-block" style={{ padding: '14px 20px' }}>
+              <div className="search-field-item search-btn-field">
+                <button type="submit" className="btn btn-gold btn-block search-submit-btn">
                   <Search size={18} />
                   <span>Find My Tour</span>
                 </button>
@@ -169,12 +173,19 @@ export default function HeroSection({ onSearchTours }) {
           </form>
 
           <div className="hero-guarantee-line">
-            <span><Check size={16} /> Best Price Guarantee</span>
-            <span><Check size={16} /> Zero Hidden Charges</span>
-            <span><Check size={16} /> Govt. Verified Tour Guides</span>
-            <span>
-              <Phone size={15} /> Instant Desk: <strong className="call-highlight">+91 99718 59687</strong>
-            </span>
+            <div className="guarantee-item">
+              <Check size={16} /> <span>Best Price Guarantee</span>
+            </div>
+            <div className="guarantee-item">
+              <Check size={16} /> <span>Zero Hidden Charges</span>
+            </div>
+            <div className="guarantee-item">
+              <Check size={16} /> <span>Govt. Verified Guides</span>
+            </div>
+            <div className="guarantee-item guarantee-call">
+              <Phone size={15} />
+              <span>Desk: <strong className="call-highlight">+91 99718 59687</strong></span>
+            </div>
           </div>
         </div>
       </div>

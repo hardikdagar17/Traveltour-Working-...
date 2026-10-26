@@ -11,6 +11,7 @@ import TourCostCalculator from './components/TourCostCalculator';
 import StorySection from './components/StorySection';
 import GuidesSpotlight from './components/GuidesSpotlight';
 import ReviewsSection from './components/ReviewsSection';
+import MobileTrustHub from './components/MobileTrustHub';
 import BookingSection from './components/BookingSection';
 import Footer from './components/Footer';
 import FloatingActions from './components/FloatingActions';
@@ -98,7 +99,7 @@ export default function App() {
   };
 
   const handleBookTour = (pkg) => {
-    const text = `Hello Gaur Travels (+91 99718 59687)!
+    const text = `Hello Gaur Travel (+91 99718 59687)!
 I am interested in booking:
 • Tour: ${pkg.title}
 • Duration: ${pkg.duration}
@@ -145,6 +146,8 @@ Please share itinerary details & available departure slots.`;
       <Navbar
         onOpenBookModal={() => scrollToSection('contact')}
         onScrollToSection={scrollToSection}
+        currency={currency}
+        onCurrencyChange={setCurrency}
       />
 
       {/* Hero Section */}
@@ -181,14 +184,24 @@ Please share itinerary details & available departure slots.`;
         currency={currency}
       />
 
-      {/* Story & Fun Facts Card (Image 2 - Audraverse) */}
-      <StorySection />
+      {/* Desktop Trust Sections (Tablets, Laptops, Computers >= 768px) */}
+      <div className="desktop-trust-sections">
+        {/* Story & Fun Facts Card (Image 2 - Audraverse) */}
+        <StorySection />
 
-      {/* Certified Tour Guides */}
-      <GuidesSpotlight guides={guides} />
+        {/* Certified Tour Guides */}
+        <GuidesSpotlight guides={guides} />
 
-      {/* Traveler Testimonials & Live Review Submission */}
-      <ReviewsSection
+        {/* Traveler Testimonials & Live Review Submission */}
+        <ReviewsSection
+          reviews={reviews}
+          onNewReviewAdded={handleNewReview}
+        />
+      </div>
+
+      {/* Mobile Collapsible Trust & Insights Accordion Hub (< 768px) */}
+      <MobileTrustHub
+        guides={guides}
         reviews={reviews}
         onNewReviewAdded={handleNewReview}
       />

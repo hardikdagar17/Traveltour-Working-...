@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Star, MessageSquarePlus, Send } from 'lucide-react';
 import { postReview } from '../services/api';
 
-export default function ReviewsSection({ reviews, onNewReviewAdded }) {
+export default function ReviewsSection({ reviews, onNewReviewAdded, isAccordion = false }) {
   const [showForm, setShowForm] = useState(false);
   const [author, setAuthor] = useState('');
   const [location, setLocation] = useState('');
@@ -33,15 +33,17 @@ export default function ReviewsSection({ reviews, onNewReviewAdded }) {
   };
 
   return (
-    <section className="reviews-wrapper section-padding" id="reviews">
-      <div className="container">
-        <div className="text-center">
-          <span className="section-badge-pill">VERIFIED TRAVELERS</span>
-          <h2 className="section-title">Stories From Happy Explorers</h2>
-          <p className="section-lead-text">
-            Over 1,200+ five-star verified ratings across Google &amp; TripAdvisor.
-          </p>
-        </div>
+    <section className={`reviews-wrapper ${isAccordion ? 'is-in-accordion' : 'section-padding'}`} id={isAccordion ? undefined : 'reviews'}>
+      <div className={isAccordion ? 'accordion-inner-container' : 'container'}>
+        {!isAccordion && (
+          <div className="text-center">
+            <span className="section-badge-pill">VERIFIED TRAVELERS</span>
+            <h2 className="section-title">Stories From Happy Explorers</h2>
+            <p className="section-lead-text">
+              Over 1,200+ five-star verified ratings across Google &amp; TripAdvisor.
+            </p>
+          </div>
+        )}
 
         <div className="reviews-grid-display">
           {reviews && reviews.map((rev) => (
@@ -74,7 +76,7 @@ export default function ReviewsSection({ reviews, onNewReviewAdded }) {
               className="btn btn-outline"
               onClick={() => setShowForm(true)}
             >
-              <MessageSquarePlus size={16} /> Share Your Experience With Gaur Travels
+              <MessageSquarePlus size={16} /> Share Your Experience With Gaur Travel
             </button>
           ) : (
             <form onSubmit={handleSubmit} style={{
@@ -134,7 +136,7 @@ export default function ReviewsSection({ reviews, onNewReviewAdded }) {
                   required
                   value={comment}
                   onChange={(e) => setComment(e.target.value)}
-                  placeholder="Tell others how Gaur Travels organized your dream trip..."
+                  placeholder="Tell others how Gaur Travel organized your dream trip..."
                 ></textarea>
               </div>
 

@@ -1,7 +1,7 @@
 {
   "name": "gaur-travels-fullstack",
   "version": "2.0.0",
-  "description": "Full-Stack Tour Guide & Tourism Platform for Gaur Travels",
+  "description": "Full-Stack Tour Guide & Tourism Platform for Gaur Travel",
   "main": "backend/server.js",
   "type": "module",
   "scripts": {
@@ -18,5 +18,5 @@
     "express",
     "fullstack"
   ],
-  "author": "Gaur Travels"
+  "author": "Gaur Travel"
 }

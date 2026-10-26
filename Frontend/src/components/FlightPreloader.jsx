@@ -51,7 +51,7 @@ export default function FlightPreloader({ onFinish }) {
         }}>
           <img 
             src={logoImg} 
-            alt="Gaur Travels - Safar aapka, saath hamara" 
+            alt="Gaur Travel - Safar aapka, saath hamara" 
             style={{ height: '48px', width: 'auto', display: 'block', objectFit: 'contain' }} 
           />
         </div>

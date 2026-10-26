@@ -1,5 +1,5 @@
-import React from 'react';
-import { Star, Clock, Check, Eye } from 'lucide-react';
+import React, { useState } from 'react';
+import { Star, Clock, Check, Eye, LayoutGrid, Table, ArrowRight } from 'lucide-react';
 
 export default function PackageExplorer({
   packages,
@@ -10,6 +10,9 @@ export default function PackageExplorer({
   onViewPlan,
   onBookTour
 }) {
+  const [mobileView, setMobileView] = useState('table'); // default 'table' on mobile for instant compact view
+  const [showAllCardsMobile, setShowAllCardsMobile] = useState(false);
+
   return (
     <section className="packages-wrapper section-padding" id="packages">
       <div className="container">
@@ -60,9 +63,86 @@ export default function PackageExplorer({
           </button>
         </div>
 
-        {/* Packages Cards Grid */}
-        <div className="package-cards-grid">
-          {packages && packages.map((pkg) => (
+        {/* Mobile View Mode Toggle (Mobile Screens Only) */}
+        <div className="mobile-view-toggle-bar">
+          <span className="toggle-label">Packages View:</span>
+          <div className="toggle-pill-group">
+            <button
+              type="button"
+              className={`toggle-pill-btn ${mobileView === 'grid' ? 'active' : ''}`}
+              onClick={() => setMobileView('grid')}
+            >
+              <LayoutGrid size={13} />
+              <span>Cards View</span>
+            </button>
+            <button
+              type="button"
+              className={`toggle-pill-btn ${mobileView === 'table' ? 'active' : ''}`}
+              onClick={() => setMobileView('table')}
+            >
+              <Table size={13} />
+              <span>Comparison Table</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile Packages Comparison Table View */}
+        {mobileView === 'table' && (
+          <div className="packages-table-wrapper mobile-only-table">
+            <table className="compact-packages-table">
+              <thead>
+                <tr>
+                  <th>Tour Package</th>
+                  <th>Duration</th>
+                  <th>Starting Price</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {packages && packages.map((pkg) => (
+                  <tr key={pkg.id}>
+                    <td className="pkg-table-title-cell">
+                      <strong>{pkg.title}</strong>
+                      <span className="pkg-table-region">{pkg.region.toUpperCase()} • ★ {pkg.rating}</span>
+                    </td>
+                    <td className="pkg-table-duration">
+                      <Clock size={12} />
+                      <span>{pkg.duration}</span>
+                    </td>
+                    <td className="pkg-table-price">
+                      <strong>{formatPrice(pkg.priceINR)}</strong>
+                      <small>/person</small>
+                    </td>
+                    <td className="pkg-table-action-cell">
+                      <div className="pkg-table-btn-stack">
+                        <button
+                          type="button"
+                          className="table-mini-btn outline"
+                          onClick={() => onViewPlan(pkg)}
+                          aria-label={`View plan for ${pkg.title}`}
+                        >
+                          Plan
+                        </button>
+                        <button
+                          type="button"
+                          className="table-mini-btn gold"
+                          onClick={() => onBookTour(pkg)}
+                          aria-label={`Book ${pkg.title}`}
+                        >
+                          Book
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+
+        {/* Packages Cards Grid (Desktop + Mobile Cards View) */}
+        <div className={`package-cards-grid ${mobileView === 'table' ? 'hide-on-mobile' : ''}`}>
+          {packages && (showAllCardsMobile ? packages : packages.slice(0, 3)).map((pkg) => (
             <div key={pkg.id} className="tour-pkg-card">
               <div className="pkg-media-wrap">
                 <img src={pkg.image} alt={pkg.title} loading="lazy" />
@@ -122,6 +202,19 @@ export default function PackageExplorer({
             </div>
           ))}
         </div>
+
+        {/* Mobile Show More / Show Less Toggle for Cards */}
+        {mobileView === 'grid' && packages && packages.length > 3 && (
+          <div className="mobile-show-more-card-bar">
+            <button
+              type="button"
+              className="btn btn-outline mobile-show-toggle-btn"
+              onClick={() => setShowAllCardsMobile(!showAllCardsMobile)}
+            >
+              {showAllCardsMobile ? 'Show Top 3 Packages' : `View All (${packages.length}) Packages`}
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );

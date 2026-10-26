@@ -5,7 +5,7 @@ export default function ItineraryModal({ pkg, isOpen, onClose, formatPrice }) {
   if (!isOpen || !pkg) return null;
 
   const handleWhatsAppBooking = () => {
-    const text = `Hi Gaur Travels (+91 99718 59687)!
+    const text = `Hi Gaur Travel (+91 99718 59687)!
 I want to book the tour package:
 • ${pkg.title} (${pkg.duration})
 • Price: ₹${pkg.priceINR ? pkg.priceINR.toLocaleString() : ''} / person

@@ -1,23 +1,23 @@
 import React from 'react';
 import { Award, Phone, Mail, Quote } from 'lucide-react';
 
-export default function StorySection() {
+export default function StorySection({ isAccordion = false }) {
   return (
-    <section className="story-wrapper section-padding" id="story">
-      <div className="container">
+    <section className={`story-wrapper ${isAccordion ? 'is-in-accordion' : 'section-padding'}`} id={isAccordion ? undefined : 'story'}>
+      <div className={isAccordion ? 'accordion-inner-container' : 'container'}>
         <div className="story-two-grid">
           {/* Left: Bio & Philosophy */}
           <div>
-            <span className="section-badge-pill">WELCOME TO THE GAUR TRAVELS FAMILY</span>
+            <span className="section-badge-pill">WELCOME TO THE GAUR TRAVEL FAMILY</span>
             <h2 className="section-title">
-              Hi, We are <span style={{ color: '#ea580c' }}>Gaur Travels!</span>
+              Hi, We are <span style={{ color: '#ea580c' }}>Gaur Travel!</span>
             </h2>
             <div className="story-lead-quote">
               ....TRAVEL, ....PASSION, ....LIFESTYLE
             </div>
 
             <p className="story-p">
-              Born out of an uncompromising love for the diverse cultural tapestry of India, <strong>Gaur Travels</strong> was founded to transform ordinary vacations into legendary journeys. From the sun-bleached ramparts of Rajasthan's mighty forts to the quiet morning mist over Kashmir's Dal Lake, we believe travel is not just about visiting places—it is about feeling them deeply.
+              Born out of an uncompromising love for the diverse cultural tapestry of India, <strong>Gaur Travel</strong> was founded to transform ordinary vacations into legendary journeys. From the sun-bleached ramparts of Rajasthan's mighty forts to the quiet morning mist over Kashmir's Dal Lake, we believe travel is not just about visiting places—it is about feeling them deeply.
             </p>
 
             <p className="story-p">
@@ -34,10 +34,10 @@ export default function StorySection() {
             }}>
               <Quote size={28} color="#f59e0b" style={{ opacity: 0.5, marginBottom: '6px' }} />
               <blockquote style={{ fontFamily: 'var(--font-serif)', fontStyle: 'italic', fontSize: '1.05rem', color: '#0f172a', marginBottom: '8px' }}>
-                "Our mission is simple: to make Gaur Travels the safest, most inspiring, and cherished tourism platform in India. Nothing else comes close."
+                "Our mission is simple: to make Gaur Travel the safest, most inspiring, and cherished tourism platform in India. Nothing else comes close."
               </blockquote>
               <div style={{ fontSize: '0.88rem', fontWeight: 800, color: '#0284c7' }}>
-                — Team Gaur Travels <span style={{ color: '#64748b', fontWeight: 500 }}>(Lead Tour Directors &amp; Curators)</span>
+                — Team Gaur Travel <span style={{ color: '#64748b', fontWeight: 500 }}>(Lead Tour Directors &amp; Curators)</span>
               </div>
             </div>
           </div>
@@ -46,12 +46,42 @@ export default function StorySection() {
           <div>
             <div className="audra-facts-card">
               <div className="audra-facts-header">
-                <h3>FUN FACTS ABOUT GAUR TRAVELS</h3>
+                <h3>FUN FACTS ABOUT GAUR TRAVEL</h3>
                 <Award size={26} />
               </div>
 
-              <div className="stat-metric-bar">
-                <div className="stat-label-row">
+              {/* Mobile Compact 2x3 Stat Grid (Mobile Screens Only) */}
+              <div className="mobile-stats-grid">
+                <div className="mobile-stat-tile">
+                  <strong>100%</strong>
+                  <span>Govt. Guides</span>
+                </div>
+                <div className="mobile-stat-tile">
+                  <strong>100%</strong>
+                  <span>Luxury Stays</span>
+                </div>
+                <div className="mobile-stat-tile">
+                  <strong>100%</strong>
+                  <span>Zero Hidden Fees</span>
+                </div>
+                <div className="mobile-stat-tile">
+                  <strong>24/7</strong>
+                  <span>Roadside Care</span>
+                </div>
+                <div className="mobile-stat-tile">
+                  <strong>100%</strong>
+                  <span>Custom Tours</span>
+                </div>
+                <div className="mobile-stat-tile">
+                  <strong>15k+</strong>
+                  <span>Happy Guests</span>
+                </div>
+              </div>
+
+              {/* Desktop / Tablet Metric Progress Bars */}
+              <div className="desktop-stat-bars">
+                <div className="stat-metric-bar">
+                  <div className="stat-label-row">
                   <span>Govt. Verified Guides</span>
                   <span>100%</span>
                 </div>
@@ -108,6 +138,7 @@ export default function StorySection() {
                 <div className="stat-track-line">
                   <div className="stat-fill-bar" style={{ width: '98%' }}></div>
                 </div>
+              </div>
               </div>
 
               {/* Direct Instant Contact inside Card */}

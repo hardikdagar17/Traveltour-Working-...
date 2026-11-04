@@ -28,10 +28,10 @@ export default function PackageExplorer({
         <div className="category-tab-filters">
           <button
             type="button"
-            className={`tab-filter-btn ${activeFilter === 'all' ? 'active' : ''}`}
-            onClick={() => onFilterChange('all')}
+            className={`tab-filter-btn ${activeFilter === 'featured' ? 'active' : ''}`}
+            onClick={() => onFilterChange('featured')}
           >
-            All Packages
+            Featured
           </button>
           <button
             type="button"
@@ -60,6 +60,13 @@ export default function PackageExplorer({
             onClick={() => onFilterChange('east')}
           >
             East India
+          </button>
+          <button
+            type="button"
+            className={`tab-filter-btn ${activeFilter === 'all' ? 'active' : ''}`}
+            onClick={() => onFilterChange('all')}
+          >
+            All Packages
           </button>
         </div>
 
@@ -161,14 +168,12 @@ export default function PackageExplorer({
                 <h3 className="pkg-title-text">{pkg.title}</h3>
 
                 <div className="pkg-inclusions-row">
-                  {pkg.inclusions && pkg.inclusions.slice(0, 3).map((inc, i) => (
+                  {pkg.inclusions && pkg.inclusions.slice(0, 4).map((inc, i) => (
                     <span key={i} className="inclusion-chip">
                       <Check size={12} /> {inc}
                     </span>
                   ))}
                 </div>
-
-                <p className="pkg-summary-desc">{pkg.highlights}</p>
 
                 <div className="pkg-footer-row">
                   <div className="pkg-price-unit">
@@ -212,6 +217,20 @@ export default function PackageExplorer({
               onClick={() => setShowAllCardsMobile(!showAllCardsMobile)}
             >
               {showAllCardsMobile ? 'Show Top 3 Packages' : `View All (${packages.length}) Packages`}
+            </button>
+          </div>
+        )}
+
+        {/* View All Packages Expansion CTA when viewing Featured */}
+        {activeFilter === 'featured' && (
+          <div style={{ textAlign: 'center', marginTop: '36px' }}>
+            <button
+              type="button"
+              className="btn btn-outline"
+              style={{ padding: '12px 32px', borderRadius: '9999px', fontWeight: 700 }}
+              onClick={() => onFilterChange('all')}
+            >
+              View All Packages (8 Tours)
             </button>
           </div>
         )}

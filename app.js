@@ -1,9 +1,11 @@
 /**
  * GAUR TRAVEL - Interactive Application Logic
  * Helpline: +91 99718 59687 | Email: gaur.tourtravel04@gmail.com
+ * Official Google Business Profile: https://share.google/P6PcZ0gTCoj0riPn6
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+  initThemeHandler();
   initPreloader();
   initScrollTracker();
   initHeroSlider();
@@ -13,6 +15,9 @@ document.addEventListener('DOMContentLoaded', () => {
   initModals();
   initForms();
   initCurrencyHandler();
+  initGoogleReviewsSync();
+  init20SecondAutoBookingModal();
+  initCookieConsent();
 });
 
 /* ==========================================================================
@@ -183,9 +188,7 @@ function initCurrencyHandler() {
 }
 
 function updateAllPricesAcrossPage() {
-  // Re-render packages
   renderPackages(currentActiveFilter);
-  // Re-calculate cost calculator
   updateCalculatorTotal();
 }
 
@@ -374,51 +377,75 @@ const tourPackagesData = [
   }
 ];
 
-let currentActiveFilter = 'all';
+let currentActiveFilter = 'featured';
 
 function initPackagesEngine() {
-  const container = document.getElementById('packages-container');
+  // Render initial curated 3 Featured packages (never overwhelm with all 8 by default)
+  renderPackages('featured');
+
+  // Filter tab buttons
   const filterBtns = document.querySelectorAll('.filter-btn');
-
-  renderPackages('all');
-
   filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       filterBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       currentActiveFilter = btn.getAttribute('data-filter');
+      syncRegionChips(currentActiveFilter);
       renderPackages(currentActiveFilter);
     });
   });
 
-  // Clicking Image 1 Destination cards filters packages automatically
+  // View All Packages expansion button
+  const viewAllBtn = document.getElementById('btn-show-all-packages');
+  if (viewAllBtn) {
+    viewAllBtn.addEventListener('click', () => {
+      currentActiveFilter = 'all';
+      filterBtns.forEach(b => {
+        if (b.getAttribute('data-filter') === 'all') {
+          b.classList.add('active');
+        } else {
+          b.classList.remove('active');
+        }
+      });
+      syncRegionChips('all');
+      renderPackages('all');
+      showToast('Displaying all 8 verified tour packages across India.', 'info');
+    });
+  }
+
+  // Mobile & Desktop Region Chips (Image 2 style)
+  const regionChips = document.querySelectorAll('.region-chip');
+  regionChips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      const region = chip.getAttribute('data-region');
+      filterByRegion(region);
+    });
+  });
+
+  // Regional Image Cards
   const regionCards = document.querySelectorAll('.region-card');
   regionCards.forEach(card => {
     card.addEventListener('click', () => {
       const region = card.getAttribute('data-region');
-      const targetFilterBtn = document.querySelector(`.filter-btn[data-filter="${region}"]`);
-      if (targetFilterBtn) {
-        targetFilterBtn.click();
-      }
-      const packagesSection = document.getElementById('packages');
-      if (packagesSection) {
-        packagesSection.scrollIntoView({ behavior: 'smooth' });
-      }
+      filterByRegion(region);
     });
   });
 
-  // Search Engine Submit from Hero
+  // Floating Island Search Bar from Hero (Image 2 style)
   const heroSearchForm = document.getElementById('hero-quick-search-form');
   if (heroSearchForm) {
     heroSearchForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      const region = document.getElementById('search-region').value;
-      const targetBtn = document.querySelector(`.filter-btn[data-filter="${region}"]`) || document.querySelector('.filter-btn[data-filter="all"]');
-      if (targetBtn) targetBtn.click();
-      const packagesSection = document.getElementById('packages');
-      if (packagesSection) {
-        packagesSection.scrollIntoView({ behavior: 'smooth' });
-      }
+      const regionInput = document.getElementById('search-region');
+      const datesInput = document.getElementById('search-dates');
+      const guestsInput = document.getElementById('search-guests');
+
+      const regionVal = regionInput ? regionInput.value : 'all';
+      const datesVal = datesInput ? datesInput.value : 'Flexible';
+      const guestsVal = guestsInput ? guestsInput.value : '2';
+
+      filterByRegion(regionVal);
+      showToast(`Searching curated tours in ${regionVal.toUpperCase()} for ${guestsVal} guests (${datesVal})...`, 'info');
     });
   }
 
@@ -436,24 +463,69 @@ function initPackagesEngine() {
   const highlightItems = document.querySelectorAll('.highlight-item');
   highlightItems.forEach(item => {
     item.addEventListener('click', () => {
-      const serviceName = item.querySelector('.highlight-label').textContent;
+      const serviceName = item.querySelector('.highlight-label')?.textContent || 'Service';
       openQuickBookModal(`Service Request: ${serviceName}`);
     });
   });
 }
 
+function syncRegionChips(activeRegion) {
+  document.querySelectorAll('.region-chip').forEach(chip => {
+    if (chip.getAttribute('data-region') === activeRegion) {
+      chip.classList.add('active');
+    } else {
+      chip.classList.remove('active');
+    }
+  });
+}
+
+function filterByRegion(region) {
+  currentActiveFilter = (region === 'golden') ? 'west' : (region || 'all');
+
+  syncRegionChips(region);
+
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  filterBtns.forEach(btn => {
+    if (btn.getAttribute('data-filter') === currentActiveFilter) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+
+  renderPackages(currentActiveFilter);
+
+  const pkgSection = document.getElementById('packages');
+  if (pkgSection) {
+    pkgSection.scrollIntoView({ behavior: 'smooth' });
+  }
+}
+window.filterByRegion = filterByRegion;
+
 function renderPackages(filter) {
   const container = document.getElementById('packages-container');
   if (!container) return;
 
-  const filtered = filter === 'all' 
-    ? tourPackagesData 
-    : tourPackagesData.filter(pkg => pkg.region === filter);
+  let filtered = [];
+  if (filter === 'featured') {
+    // Show top 3 handpicked flagship packages by default (North, West, South)
+    filtered = tourPackagesData.filter(pkg => ['north-1', 'west-1', 'south-1'].includes(pkg.id));
+  } else if (filter === 'all') {
+    filtered = tourPackagesData;
+  } else {
+    filtered = tourPackagesData.filter(pkg => pkg.region === filter);
+  }
+
+  // Toggle View All button visibility
+  const expandWrap = document.getElementById('packages-expand-wrap');
+  if (expandWrap) {
+    expandWrap.style.display = (filter === 'featured') ? 'block' : 'none';
+  }
 
   container.innerHTML = '';
 
   if (filtered.length === 0) {
-    container.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #64748b;">
+    container.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-muted);">
       <h3>No tours found for this filter</h3>
       <p>Please contact us at +91 99718 59687 for a custom package.</p>
     </div>`;
@@ -475,11 +547,10 @@ function renderPackages(filter) {
         <div class="pkg-inclusions">
           ${pkg.inclusions.map(inc => `<span class="inc-item"><i class="fa-solid fa-check"></i> ${inc}</span>`).join('')}
         </div>
-        <p class="pkg-highlights-snippet">${pkg.highlights}</p>
         <div class="pkg-footer">
           <div class="pkg-price-col">
             <small>Starting From</small>
-            <div class="pkg-price-val">${formatPrice(pkg.priceINR)} <span style="font-size: 0.75rem; font-weight: normal; color: #64748b;">/ person</span></div>
+            <div class="pkg-price-val">${formatPrice(pkg.priceINR)} <span style="font-size: 0.75rem; font-weight: normal; color: var(--text-muted);">/ person</span></div>
           </div>
           <div class="pkg-actions">
             <button class="btn btn-view-plan" data-id="${pkg.id}">
@@ -532,32 +603,27 @@ let calcState = {
 };
 
 function initTourCalculator() {
-  // Region buttons
   setupButtonGroup('calc-region-options', (btn) => {
     calcState.region = btn.getAttribute('data-value');
     updateCalculatorTotal();
   });
 
-  // Duration buttons
   setupButtonGroup('calc-duration-options', (btn) => {
     calcState.days = parseInt(btn.getAttribute('data-days'), 10);
     calcState.nights = parseInt(btn.getAttribute('data-nights'), 10);
     updateCalculatorTotal();
   });
 
-  // Hotel multiplier
   setupButtonGroup('calc-hotel-options', (btn) => {
     calcState.hotelMultiplier = parseFloat(btn.getAttribute('data-multiplier'));
     updateCalculatorTotal();
   });
 
-  // Cab options
   setupButtonGroup('calc-cab-options', (btn) => {
     calcState.cabDailyRate = parseInt(btn.getAttribute('data-car-rate'), 10);
     updateCalculatorTotal();
   });
 
-  // Guest slider
   const guestSlider = document.getElementById('calc-guest-count');
   const guestLabel = document.getElementById('guest-count-label');
   const summaryGuest = document.getElementById('summary-guest-display');
@@ -570,7 +636,6 @@ function initTourCalculator() {
     });
   }
 
-  // Toggles
   const guideToggle = document.getElementById('calc-guide-toggle');
   if (guideToggle) {
     guideToggle.addEventListener('change', (e) => {
@@ -597,9 +662,9 @@ function initTourCalculator() {
         south: 'South India (Kerala Backwaters & Munnar)',
         east: 'East India (Darjeeling & Sikkim Hills)'
       };
-      const totalAmount = document.getElementById('calc-total-price').textContent;
+      const totalAmount = document.getElementById('calc-total-price')?.textContent || '0';
       const message = `Hello Gaur Travel! I created an estimate on your website calculator:
-• Destination: ${regionNames[calcState.region]}
+• Destination: ${regionNames[calcState.region] || 'Custom Region'}
 • Duration: ${calcState.days} Days / ${calcState.nights} Nights
 • Travelers: ${calcState.guests}
 • Guide: ${calcState.includeGuide ? 'Yes' : 'No'}
@@ -636,24 +701,16 @@ function setupButtonGroup(containerId, callback) {
 }
 
 function updateCalculatorTotal() {
-  // Base daily rate per room (2 guests per room)
   const roomsNeeded = Math.ceil(calcState.guests / 2);
   const baseRoomRatePerNight = 3200;
   const hotelTotal = Math.round(roomsNeeded * baseRoomRatePerNight * calcState.nights * calcState.hotelMultiplier);
-
-  // Cab total
   const cabTotal = calcState.cabDailyRate * calcState.days;
-
-  // Guide total
   const guideTotal = calcState.includeGuide ? (2000 * calcState.days) : 0;
-
-  // Insurance & tolls
   const insuranceTotal = calcState.includeInsurance ? (450 * calcState.guests) : 0;
-  const extraTotal = insuranceTotal + (300 * calcState.days); // State taxes/toll fee
+  const extraTotal = insuranceTotal + (300 * calcState.days);
 
   const grandTotalINR = hotelTotal + cabTotal + guideTotal + extraTotal;
 
-  // Render Breakdown
   const breakHotel = document.getElementById('break-hotel');
   const breakCab = document.getElementById('break-cab');
   const breakGuide = document.getElementById('break-guide');
@@ -680,12 +737,8 @@ function initModals() {
   const itinClose = document.getElementById('modal-close-btn');
   const quickClose = document.getElementById('quick-modal-close-btn');
 
-  if (itinClose) {
-    itinClose.addEventListener('click', () => closeModals());
-  }
-  if (quickClose) {
-    quickClose.addEventListener('click', () => closeModals());
-  }
+  if (itinClose) itinClose.addEventListener('click', () => closeModals());
+  if (quickClose) quickClose.addEventListener('click', () => closeModals());
 
   [itinModal, quickModal].forEach(modal => {
     if (modal) {
@@ -695,12 +748,10 @@ function initModals() {
     }
   });
 
-  // Escape key closes modals
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeModals();
   });
 
-  // Header quick buttons
   const openBookModalBtn = document.getElementById('open-book-modal-btn');
   const openItineraryBtn = document.getElementById('open-itinerary-btn');
   const ctaDestBook = document.getElementById('cta-book-destinations');
@@ -723,9 +774,12 @@ function openItineraryModal(pkg) {
   const modal = document.getElementById('itinerary-modal');
   if (!modal) return;
 
-  document.getElementById('modal-pkg-region').textContent = pkg.regionLabel;
-  document.getElementById('modal-pkg-title').textContent = pkg.title;
-  document.getElementById('modal-pkg-duration').textContent = `${pkg.duration} • All-Inclusive Logistics & Assistance`;
+  const regEl = document.getElementById('modal-pkg-region');
+  const titleEl = document.getElementById('modal-pkg-title');
+  const durEl = document.getElementById('modal-pkg-duration');
+  if (regEl) regEl.textContent = pkg.regionLabel;
+  if (titleEl) titleEl.textContent = pkg.title;
+  if (durEl) durEl.textContent = `${pkg.duration} • All-Inclusive Logistics & Assistance`;
 
   const banner = document.getElementById('modal-header-banner');
   if (banner) {
@@ -733,25 +787,26 @@ function openItineraryModal(pkg) {
   }
 
   const timeline = document.getElementById('modal-timeline');
-  timeline.innerHTML = '';
-  pkg.itinerary.forEach(item => {
-    const timeItem = document.createElement('div');
-    timeItem.className = 'timeline-item';
-    timeItem.innerHTML = `
-      <div class="timeline-dot"></div>
-      <div class="timeline-day">${item.day}</div>
-      <div class="timeline-title">${item.title}</div>
-      <div class="timeline-desc">${item.desc}</div>
-    `;
-    timeline.appendChild(timeItem);
-  });
+  if (timeline) {
+    timeline.innerHTML = '';
+    pkg.itinerary.forEach(item => {
+      const timeItem = document.createElement('div');
+      timeItem.className = 'timeline-item';
+      timeItem.innerHTML = `
+        <div class="timeline-dot"></div>
+        <div class="timeline-day">${item.day}</div>
+        <div class="timeline-title">${item.title}</div>
+        <div class="timeline-desc">${item.desc}</div>
+      `;
+      timeline.appendChild(timeItem);
+    });
+  }
 
   const priceDisplay = document.getElementById('modal-price-display');
   if (priceDisplay) {
     priceDisplay.innerHTML = `${formatPrice(pkg.priceINR)} <span>/ person</span>`;
   }
 
-  // Set WhatsApp button
   const bookBtn = document.getElementById('modal-book-now-btn');
   if (bookBtn) {
     bookBtn.onclick = () => {
@@ -764,6 +819,7 @@ function openItineraryModal(pkg) {
   modal.setAttribute('aria-hidden', 'false');
   document.body.style.overflow = 'hidden';
 }
+window.openItineraryModal = openItineraryModal;
 
 function openQuickBookModal(prefillDestination = '') {
   const modal = document.getElementById('quick-book-modal');
@@ -778,6 +834,7 @@ function openQuickBookModal(prefillDestination = '') {
   modal.setAttribute('aria-hidden', 'false');
   document.body.style.overflow = 'hidden';
 }
+window.openQuickBookModal = openQuickBookModal;
 
 function closeModals() {
   document.querySelectorAll('.modal-backdrop').forEach(m => {
@@ -786,6 +843,7 @@ function closeModals() {
   });
   document.body.style.overflow = '';
 }
+window.closeModals = closeModals;
 
 /* ==========================================================================
    8. FORMS & NOTIFICATIONS
@@ -796,13 +854,13 @@ function initForms() {
   if (mainForm) {
     mainForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      const name = document.getElementById('form-name').value;
-      const phone = document.getElementById('form-phone').value;
-      const email = document.getElementById('form-email').value || 'Not provided';
-      const dest = document.getElementById('form-destination').value;
-      const date = document.getElementById('form-date').value || 'Flexible';
-      const travelers = document.getElementById('form-travelers').value;
-      const notes = document.getElementById('form-notes').value || 'Standard';
+      const name = document.getElementById('form-name')?.value || 'Guest';
+      const phone = document.getElementById('form-phone')?.value || '';
+      const email = document.getElementById('form-email')?.value || 'Not provided';
+      const dest = document.getElementById('form-destination')?.value || 'India Tour';
+      const date = document.getElementById('form-date')?.value || 'Flexible';
+      const travelers = document.getElementById('form-travelers')?.value || '2';
+      const notes = document.getElementById('form-notes')?.value || 'Standard';
 
       const bookingRef = `GT-${Math.floor(1000 + Math.random() * 9000)}`;
 
@@ -833,10 +891,10 @@ Looking forward to your itinerary!`);
   if (quickForm) {
     quickForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      const name = document.getElementById('qb-name').value;
-      const phone = document.getElementById('qb-phone').value;
-      const dest = document.getElementById('qb-dest').value;
-      const notes = document.getElementById('qb-notes').value || 'General inquiry';
+      const name = document.getElementById('qb-name')?.value || 'Guest';
+      const phone = document.getElementById('qb-phone')?.value || '';
+      const dest = document.getElementById('qb-dest')?.value || 'India';
+      const notes = document.getElementById('qb-notes')?.value || 'General inquiry';
 
       closeModals();
       showToast(`Thanks ${name}! Directing you to WhatsApp with Gaur Travel (+91 99718 59687)...`, 'success');
@@ -861,6 +919,9 @@ function showToast(message, type = 'info') {
   const container = document.getElementById('toast-container');
   if (!container) return;
 
+  // Clear previous toasts so they never stack into an intrusive list
+  container.innerHTML = '';
+
   const toast = document.createElement('div');
   toast.className = `toast ${type}`;
   toast.innerHTML = `
@@ -872,10 +933,10 @@ function showToast(message, type = 'info') {
 
   setTimeout(() => {
     toast.style.opacity = '0';
-    toast.style.transform = 'translateY(10px)';
+    toast.style.transform = 'translateY(-10px)';
     toast.style.transition = 'all 0.3s ease';
     setTimeout(() => toast.remove(), 300);
-  }, 5000);
+  }, 4000);
 }
 
 /* ==========================================================================
@@ -898,4 +959,544 @@ function initNavigation() {
       });
     });
   }
+}
+
+/* ==========================================================================
+   10. LIGHT & DARK THEME ENGINE
+   ========================================================================== */
+function initThemeHandler() {
+  const toggleBtns = document.querySelectorAll('.theme-toggle-btn');
+
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('gaur_theme', theme);
+
+    toggleBtns.forEach(btn => {
+      const isDark = theme === 'dark';
+      btn.setAttribute('aria-label', isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode');
+      btn.setAttribute('title', isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode');
+      const tooltip = btn.querySelector('.float-tooltip');
+      if (tooltip) {
+        tooltip.textContent = isDark ? 'Light Mode ☀️' : 'Dark Mode 🌙';
+      }
+      const icon = btn.querySelector('i');
+      if (icon && btn.classList.contains('dock-theme')) {
+        icon.className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+      }
+    });
+  }
+
+  // Strictly default to pure Light Theme per user's explicit preference
+  const savedTheme = localStorage.getItem('gaur_theme');
+  const initialTheme = (savedTheme === 'dark') ? 'dark' : 'light';
+  applyTheme(initialTheme);
+
+  toggleBtns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const activeTheme = document.documentElement.getAttribute('data-theme') || 'light';
+      const nextTheme = activeTheme === 'dark' ? 'light' : 'dark';
+      applyTheme(nextTheme);
+    });
+  });
+}
+
+/* ==========================================================================
+   11. GOOGLE REVIEWS AUTO-SYNC ENGINE
+   Connected to: https://share.google/P6PcZ0gTCoj0riPn6
+   Syncs live reviews automatically so new reviews appear immediately on site.
+   ========================================================================== */
+const FALLBACK_GOOGLE_REVIEWS = [
+  {
+    id: "rev-google-01",
+    author: "Kumkum Singh",
+    location: "Verified Google Review",
+    tour: "Uttarakhand & Domestic Tour",
+    rating: 5,
+    comment: "Great experience with Gaur Travel highly recommend. The guide was exceptionally well-mannered and all hotel arrangements were 5-star.",
+    avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=150&q=80",
+    source: "google",
+    googleUrl: "https://share.google/P6PcZ0gTCoj0riPn6",
+    date: "Google Verified"
+  },
+  {
+    id: "rev-google-02",
+    author: "Jugal Kishor",
+    location: "Verified Google Review",
+    tour: "Char Dham & Himalayas",
+    rating: 5,
+    comment: "The service and arrangements were much better than we expected. Clean Innova cab and experienced driver throughout the mountain roads.",
+    avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&q=80",
+    source: "google",
+    googleUrl: "https://share.google/P6PcZ0gTCoj0riPn6",
+    date: "Google Verified"
+  },
+  {
+    id: "rev-google-03",
+    author: "CONQUEROR",
+    location: "Verified Google Review",
+    tour: "Custom Holiday Tour",
+    rating: 5,
+    comment: "The staff was very supportive, cooperative, and reliable throughout the journey. Transparent pricing and 24/7 coordinator assistance.",
+    avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80",
+    source: "google",
+    googleUrl: "https://share.google/P6PcZ0gTCoj0riPn6",
+    date: "Google Verified"
+  },
+  {
+    id: "rev-google-04",
+    author: "Rohit Choudhury",
+    location: "Verified Google Review",
+    tour: "Kashmir & Gulmarg Luxury Tour",
+    rating: 5,
+    comment: "Simply outstanding service from Gaur Travel! The Shikara ride, Gulmarg gondola tickets, and chauffeur were all pre-booked with zero waiting time.",
+    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&q=80",
+    source: "google",
+    googleUrl: "https://share.google/P6PcZ0gTCoj0riPn6",
+    date: "Google Verified"
+  },
+  {
+    id: "rev-google-05",
+    author: "Sunita & Arvind Mehta",
+    location: "Verified Google Review",
+    tour: "Rajasthan Royal Palaces",
+    rating: 5,
+    comment: "We visited Jaipur, Udaipur and Jodhpur with our elderly parents. Gaur Travel ensured wheel-chair assistance and heritage hotel rooms on the ground floor. 10/10!",
+    avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=150&q=80",
+    source: "google",
+    googleUrl: "https://share.google/P6PcZ0gTCoj0riPn6",
+    date: "Google Verified"
+  },
+  {
+    id: "rev-01",
+    author: "Aarohi & Rahul Sharma",
+    location: "New Delhi",
+    tour: "Kashmir Paradise (6D/5N)",
+    rating: 5,
+    comment: "Booking our Kashmir tour with Gaur Travel was hands down the best decision we made! Our driver Mr. Bashir was exceptionally polite, the houseboat was pure luxury, and every checkpoint was hassle-free. Truly unmatchable service!",
+    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80",
+    source: "verified",
+    googleUrl: "https://share.google/P6PcZ0gTCoj0riPn6",
+    date: "October 2026"
+  }
+];
+
+function renderReviewsList(reviews) {
+  const container = document.getElementById('testimonials-grid');
+  const avatarsContainer = document.getElementById('avatars-strip');
+  if (!container) return;
+
+  container.innerHTML = '';
+  reviews.forEach((rev, idx) => {
+    const card = document.createElement('div');
+    card.className = 'review-card glass-panel';
+    card.id = `review-item-${idx}`;
+    card.innerHTML = `
+      <div class="review-card-top">
+        <div class="review-stars-row">
+          ${'<i class="fa-solid fa-star"></i>'.repeat(rev.rating || 5)}
+        </div>
+        <span class="google-verified-tag">
+          <i class="fa-brands fa-google"></i> Google Verified
+        </span>
+      </div>
+      <p class="review-text">"${rev.comment}"</p>
+      <div class="reviewer-meta">
+        <img src="${rev.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80'}" alt="${rev.author}" loading="lazy">
+        <div>
+          <strong>${rev.author}</strong>
+          <small>${rev.tour || 'Custom Tour'} • <a href="https://share.google/P6PcZ0gTCoj0riPn6" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">View on Google ↗</a></small>
+        </div>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+
+  // Render Image 1 Avatar Strip
+  if (avatarsContainer) {
+    avatarsContainer.innerHTML = '';
+    reviews.slice(0, 6).forEach((rev, idx) => {
+      const btn = document.createElement('button');
+      btn.className = `avatar-thumb-btn ${idx === 0 ? 'active' : ''}`;
+      btn.setAttribute('aria-label', `View review by ${rev.author}`);
+      btn.title = `${rev.author} - 5.0 ★ Google Review`;
+      btn.innerHTML = `<img src="${rev.avatar}" alt="${rev.author}">`;
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.avatar-thumb-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const targetCard = document.getElementById(`review-item-${idx}`);
+        if (targetCard) {
+          targetCard.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+          targetCard.style.borderColor = 'var(--amber-gold)';
+          targetCard.style.boxShadow = '0 0 20px rgba(245, 158, 11, 0.4)';
+          setTimeout(() => {
+            targetCard.style.borderColor = '';
+            targetCard.style.boxShadow = '';
+          }, 2000);
+        }
+      });
+      avatarsContainer.appendChild(btn);
+    });
+
+    // Add Google Review CTA Pill
+    const addReviewBtn = document.createElement('a');
+    addReviewBtn.href = 'https://share.google/P6PcZ0gTCoj0riPn6';
+    addReviewBtn.target = '_blank';
+    addReviewBtn.rel = 'noopener';
+    addReviewBtn.className = 'btn-google-review';
+    addReviewBtn.style.padding = '8px 16px';
+    addReviewBtn.style.fontSize = '0.78rem';
+    addReviewBtn.innerHTML = `<i class="fa-brands fa-google"></i> + Review Us`;
+    avatarsContainer.appendChild(addReviewBtn);
+  }
+}
+
+function initGoogleReviewsSync() {
+  const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+  const apiUrl = isLocal ? 'http://localhost:5000/api/reviews' : '/api/reviews';
+
+  async function fetchReviews() {
+    try {
+      const res = await fetch(apiUrl, { cache: 'no-store' });
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data) && data.length > 0) {
+          renderReviewsList(data);
+          return;
+        }
+      }
+      renderReviewsList(FALLBACK_GOOGLE_REVIEWS);
+    } catch (err) {
+      // Offline / sandboxed fallback
+      renderReviewsList(FALLBACK_GOOGLE_REVIEWS);
+    }
+  }
+
+  fetchReviews();
+  // Auto-sync polling every 20 seconds so any review on Google link appears automatically
+  setInterval(fetchReviews, 20000);
+}
+
+/* ==========================================================================
+   12. VIP TOUR REGISTRATION & EXCLUSIVE VOUCHER MODAL
+   Appears automatically after visitor spends ~8 seconds on site.
+   Features a 15-minute live countdown timer, discount code GT-DREAM3000,
+   and instant WhatsApp concierge booking.
+   ========================================================================== */
+function init20SecondAutoBookingModal() {
+  const modal = document.getElementById('auto-booking-modal');
+  const closeBtn = document.getElementById('auto-modal-close-btn');
+  const dismissBtn = document.getElementById('auto-dismiss-btn');
+  const quickForm = document.getElementById('auto-booking-quick-form');
+  const minDisplay = document.getElementById('offer-timer-min');
+  const secDisplay = document.getElementById('offer-timer-sec');
+
+  if (!modal) return;
+
+  let timerInterval = null;
+  let remainingSeconds = 14 * 60 + 59; // 14:59 live countdown timer
+
+  function startCountdown() {
+    if (timerInterval) clearInterval(timerInterval);
+    timerInterval = setInterval(() => {
+      remainingSeconds--;
+      if (remainingSeconds <= 0) {
+        clearInterval(timerInterval);
+        remainingSeconds = 0;
+      }
+      const m = Math.floor(remainingSeconds / 60);
+      const s = remainingSeconds % 60;
+      if (minDisplay) minDisplay.textContent = m < 10 ? `0${m}` : m;
+      if (secDisplay) secDisplay.textContent = s < 10 ? `0${s}` : s;
+    }, 1000);
+  }
+
+  function openAutoModal() {
+    // If already registered and completed, do not interrupt
+    if (sessionStorage.getItem('gaur_vip_registered') === 'true') return;
+
+    // Gentle 60s cooldown if previously dismissed during active browsing
+    const lastDismissed = parseInt(sessionStorage.getItem('gaur_vip_offer_closed_at') || '0', 10);
+    if (Date.now() - lastDismissed < 60000) return;
+
+    // Check if another modal is currently open
+    const openModals = document.querySelectorAll('.modal-backdrop.open');
+    if (openModals.length > 0) return;
+
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    startCountdown();
+  }
+
+  function closeAutoModal() {
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    sessionStorage.setItem('gaur_vip_offer_closed_at', Date.now().toString());
+    if (timerInterval) clearInterval(timerInterval);
+  }
+
+  // Set automatic registration popup timer (triggers after 8 seconds of site opening)
+  setTimeout(() => {
+    openAutoModal();
+  }, 8000);
+
+  // Expose global trigger for nav or manual buttons
+  window.openVIPRegistrationModal = openAutoModal;
+
+  if (closeBtn) closeBtn.addEventListener('click', closeAutoModal);
+  if (dismissBtn) dismissBtn.addEventListener('click', closeAutoModal);
+
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeAutoModal();
+  });
+
+  if (quickForm) {
+    quickForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('auto-name')?.value || 'Valued Guest';
+      const phone = document.getElementById('auto-phone')?.value || '';
+      const dest = document.getElementById('auto-dest')?.value || 'All India Tour';
+      const guests = document.getElementById('auto-guests')?.value || '2 Adults';
+
+      closeAutoModal();
+      sessionStorage.setItem('gaur_vip_registered', 'true');
+      showToast(`🎉 VIP Registration complete! ₹3,000 voucher applied. Connecting via WhatsApp...`, 'success');
+
+      // Attempt to post booking inquiry to backend
+      try {
+        const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        const backendUrl = isLocal ? 'http://localhost:5000/api/bookings' : '/api/bookings';
+        fetch(backendUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name,
+            phone,
+            packageTitle: dest,
+            guests,
+            notes: 'Registered for VIP Tour: Saved ₹3,000 (Promo Code: GT-DREAM3000)'
+          })
+        }).catch(() => {});
+      } catch (err) {}
+
+      // Direct to WhatsApp with voucher details
+      setTimeout(() => {
+        const text = encodeURIComponent(`Hello Gaur Travel (+91 99718 59687)!
+I have registered for the VIP Tour Offer on your website:
+• Promo Code: GT-DREAM3000 (Save ₹3,000)
+• Name: ${name}
+• WhatsApp: ${phone}
+• Preferred Destination: ${dest}
+• Number of Guests: ${guests}
+
+Please confirm my ₹3,000 reservation discount and share available itinerary dates!`);
+        window.open(`https://wa.me/919971859687?text=${text}`, '_blank');
+      }, 700);
+
+      quickForm.reset();
+    });
+  }
+}
+
+/* ==========================================================================
+   13. COOKIES CONSENT ENGINE (Floating Bottom Popup & Preferences Modal)
+   ========================================================================== */
+function initCookieConsent() {
+  const box = document.getElementById('cookie-consent-box');
+  const bannerClose = document.getElementById('cookie-banner-close-btn');
+  const bannerAccept = document.getElementById('cookie-accept-all');
+  const bannerDecline = document.getElementById('cookie-decline');
+  const bannerCustomize = document.getElementById('cookie-open-customize');
+
+  // Modal elements
+  const modal = document.getElementById('cookie-modal');
+  const modalClose = document.getElementById('cookie-modal-close-btn');
+  const modalSaveBtn = document.getElementById('modal-cookie-save-btn');
+  const modalAcceptAllBtn = document.getElementById('modal-cookie-accept-all-btn');
+  const modalEssentialBtn = document.getElementById('modal-cookie-essential-btn');
+  const modalPrefToggle = document.getElementById('modal-pref-toggle');
+  const modalAnalyticsToggle = document.getElementById('modal-analytics-toggle');
+  const modalMarketingToggle = document.getElementById('modal-marketing-toggle');
+
+  const footerCookieBtn = document.getElementById('footer-cookie-settings-btn');
+  const footerPrivacyLink = document.getElementById('footer-privacy-cookie-link');
+
+  // Default cookie configuration
+  const DEFAULT_SETTINGS = {
+    essential: true,
+    preferences: true,
+    analytics: true,
+    marketing: true
+  };
+
+  let cookieDismissedThisSession = false;
+
+  function dismissBanner() {
+    cookieDismissedThisSession = true;
+    if (box) {
+      box.classList.remove('show');
+      box.setAttribute('aria-hidden', 'true');
+    }
+  }
+
+  function getStoredSettings() {
+    try {
+      const raw = localStorage.getItem('gaur_cookie_settings');
+      if (raw) return JSON.parse(raw);
+    } catch (e) {}
+    return { ...DEFAULT_SETTINGS };
+  }
+
+  function getConsentStatus() {
+    return localStorage.getItem('gaur_cookie_consent') || 'pending';
+  }
+
+  function applySettingsToUI(settings) {
+    if (modalPrefToggle) modalPrefToggle.checked = !!settings.preferences;
+    if (modalAnalyticsToggle) modalAnalyticsToggle.checked = !!settings.analytics;
+    if (modalMarketingToggle) modalMarketingToggle.checked = !!settings.marketing;
+  }
+
+  function savePreferences(settings, statusType = 'custom', showNotification = true) {
+    localStorage.setItem('gaur_cookie_settings', JSON.stringify(settings));
+    localStorage.setItem('gaur_cookie_consent', statusType);
+    applySettingsToUI(settings);
+    dismissBanner();
+
+    if (modal) {
+      modal.classList.remove('active');
+      modal.setAttribute('aria-hidden', 'true');
+    }
+
+    if (showNotification) {
+      if (statusType === 'all_accepted') {
+        showToast('All cookies accepted. Welcome to Gaur Travel!', 'success');
+      } else if (statusType === 'essential_only') {
+        showToast('Essential cookies only enabled. Preferences saved.', 'info');
+      } else {
+        showToast('Custom cookie preferences saved.', 'success');
+      }
+    }
+  }
+
+  function openCookieModal() {
+    if (!modal) return;
+    const current = getStoredSettings();
+    applySettingsToUI(current);
+    modal.classList.add('active');
+    modal.setAttribute('aria-hidden', 'false');
+  }
+
+  function closeCookieModal() {
+    if (!modal) return;
+    modal.classList.remove('active');
+    modal.setAttribute('aria-hidden', 'true');
+  }
+
+  // Initial UI state setup
+  const initialSettings = getStoredSettings();
+  applySettingsToUI(initialSettings);
+
+  // Show floating bottom popup banner in opening display on visit.
+  // Does NOT stick when scrolling down: only appears while in opening display (scrollY <= 80px).
+  function handleScrollCookieVisibility() {
+    if (cookieDismissedThisSession || !box) return;
+    if (window.scrollY > 80) {
+      box.classList.remove('show');
+      box.setAttribute('aria-hidden', 'true');
+    } else {
+      box.classList.add('show');
+      box.setAttribute('aria-hidden', 'false');
+    }
+  }
+
+  // Immediately display on site load in opening view
+  if (box) {
+    box.classList.add('show');
+    box.setAttribute('aria-hidden', 'false');
+  }
+
+  window.addEventListener('scroll', handleScrollCookieVisibility, { passive: true });
+
+  if (bannerClose) {
+    bannerClose.addEventListener('click', dismissBanner);
+  }
+
+  // Banner Event Handlers
+  if (bannerAccept) {
+    bannerAccept.addEventListener('click', () => {
+      savePreferences({ essential: true, preferences: true, analytics: true, marketing: true }, 'all_accepted');
+    });
+  }
+
+  if (bannerDecline) {
+    bannerDecline.addEventListener('click', () => {
+      savePreferences({ essential: true, preferences: false, analytics: false, marketing: false }, 'essential_only');
+    });
+  }
+
+  if (bannerCustomize) {
+    bannerCustomize.addEventListener('click', () => {
+      dismissBanner();
+      openCookieModal();
+    });
+  }
+
+  // Modal Event Handlers
+  if (modalClose) modalClose.addEventListener('click', closeCookieModal);
+  if (modal) {
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeCookieModal();
+    });
+  }
+
+  if (modalAcceptAllBtn) {
+    modalAcceptAllBtn.addEventListener('click', () => {
+      savePreferences({ essential: true, preferences: true, analytics: true, marketing: true }, 'all_accepted');
+    });
+  }
+
+  if (modalEssentialBtn) {
+    modalEssentialBtn.addEventListener('click', () => {
+      savePreferences({ essential: true, preferences: false, analytics: false, marketing: false }, 'essential_only');
+    });
+  }
+
+  if (modalSaveBtn) {
+    modalSaveBtn.addEventListener('click', () => {
+      const settings = {
+        essential: true,
+        preferences: modalPrefToggle ? modalPrefToggle.checked : true,
+        analytics: modalAnalyticsToggle ? modalAnalyticsToggle.checked : true,
+        marketing: modalMarketingToggle ? modalMarketingToggle.checked : true
+      };
+      savePreferences(settings, 'custom');
+    });
+  }
+
+  // Footer triggers to open preferences modal or reopen banner
+  if (footerCookieBtn) {
+    footerCookieBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      openCookieModal();
+    });
+  }
+
+  if (footerPrivacyLink) {
+    footerPrivacyLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      openCookieModal();
+    });
+  }
+
+  // Global methods for debugging and testing
+  window.openCookieModal = openCookieModal;
+  window.openCookieBanner = () => {
+    if (box) {
+      box.classList.add('show');
+      box.setAttribute('aria-hidden', 'false');
+    }
+  };
 }

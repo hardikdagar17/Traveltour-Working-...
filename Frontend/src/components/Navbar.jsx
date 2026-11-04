@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Plane, Compass, Menu, X, ArrowRight, CalendarDays, Phone, MessageSquare, Globe, ShieldCheck } from 'lucide-react';
+import { Plane, Compass, Menu, X, ArrowRight, CalendarDays, Phone, MessageSquare, Globe, ShieldCheck, Sun, Moon } from 'lucide-react';
 import logoImg from '../assets/logo.png';
 
-export default function Navbar({ onOpenBookModal, onScrollToSection, currency = 'INR', onCurrencyChange }) {
+export default function Navbar({ onOpenBookModal, onScrollToSection, currency = 'INR', onCurrencyChange, theme = 'light', onToggleTheme }) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -65,6 +65,16 @@ export default function Navbar({ onOpenBookModal, onScrollToSection, currency = 
           </div>
 
           <div className="navbar-cta-group">
+            {/* Light / Dark Theme Switcher */}
+            <button
+              className="theme-toggle-btn"
+              onClick={onToggleTheme}
+              aria-label={theme === 'dark' ? "Switch to Light Mode" : "Switch to Dark Mode"}
+              title={theme === 'dark' ? "Switch to Light Mode" : "Switch to Dark Mode"}
+            >
+              {theme === 'dark' ? <Sun size={18} className="theme-icon-sun" /> : <Moon size={18} className="theme-icon-moon" />}
+            </button>
+
             <button
               className="btn btn-gold navbar-book-btn"
               onClick={() => onOpenBookModal('General Trip Booking')}
@@ -96,13 +106,24 @@ export default function Navbar({ onOpenBookModal, onScrollToSection, currency = 
       <div className={`mobile-nav-drawer ${mobileMenuOpen ? 'open' : ''}`}>
         <div className="mobile-drawer-header">
           <img src={logoImg} alt="Gaur Travel" className="drawer-logo" />
-          <button
-            className="drawer-close-btn"
-            onClick={() => setMobileMenuOpen(false)}
-            aria-label="Close menu"
-          >
-            <X size={22} />
-          </button>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <button
+              className="theme-toggle-btn"
+              onClick={onToggleTheme}
+              aria-label={theme === 'dark' ? "Switch to Light Mode" : "Switch to Dark Mode"}
+              title={theme === 'dark' ? "Switch to Light Mode" : "Switch to Dark Mode"}
+              style={{ width: '36px', height: '36px' }}
+            >
+              {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+            </button>
+            <button
+              className="drawer-close-btn"
+              onClick={() => setMobileMenuOpen(false)}
+              aria-label="Close menu"
+            >
+              <X size={22} />
+            </button>
+          </div>
         </div>
 
         <div className="mobile-drawer-links">

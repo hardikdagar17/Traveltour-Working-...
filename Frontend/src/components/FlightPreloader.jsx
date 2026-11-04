@@ -30,8 +30,22 @@ export default function FlightPreloader({ onFinish }) {
   return (
     <div className={`preloader-overlay ${progress === 100 ? 'fade-out' : ''}`}>
       <div className="preloader-box">
-        <div className="radar-circle">
+        <div className="radar-circle" style={{ position: 'relative' }}>
           <div className="radar-sweep-beam"></div>
+          <div style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            zIndex: 5,
+            pointerEvents: 'none'
+          }}>
+            <img 
+              src={logoImg} 
+              alt="Gaur Travel - Safar aapka, saath hamara" 
+              style={{ height: '42px', width: 'auto', display: 'block', objectFit: 'contain', filter: 'drop-shadow(0 4px 10px rgba(0,0,0,0.6))' }} 
+            />
+          </div>
         </div>
 
         <div className="preloader-plane-flight">
@@ -41,20 +55,6 @@ export default function FlightPreloader({ onFinish }) {
           </div>
         </div>
 
-        <div style={{
-          display: 'inline-block',
-          padding: '6px 14px',
-          background: 'rgba(255, 255, 255, 0.96)',
-          borderRadius: '12px',
-          boxShadow: '0 8px 24px rgba(0, 0, 0, 0.3)',
-          margin: '0 auto 14px auto'
-        }}>
-          <img 
-            src={logoImg} 
-            alt="Gaur Travel - Safar aapka, saath hamara" 
-            style={{ height: '48px', width: 'auto', display: 'block', objectFit: 'contain' }} 
-          />
-        </div>
         <p className="preloader-tagline">Preparing Your Dream Journey Across India</p>
 
         <div className="progress-track">

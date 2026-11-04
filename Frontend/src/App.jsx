@@ -17,6 +17,7 @@ import Footer from './components/Footer';
 import FloatingActions from './components/FloatingActions';
 import ItineraryModal from './components/ItineraryModal';
 import BookingSuccessModal from './components/BookingSuccessModal';
+import CookieConsent from './components/CookieConsent';
 
 import {
   fetchDestinations,
@@ -33,11 +34,25 @@ const CURRENCY_RATES = {
 
 export default function App() {
   const [currency, setCurrency] = useState('INR');
+  const [theme, setTheme] = useState(() => {
+    const saved = localStorage.getItem('gaur_theme');
+    return saved === 'dark' ? 'dark' : 'light';
+  });
   const [destinations, setDestinations] = useState([]);
   const [packages, setPackages] = useState([]);
   const [guides, setGuides] = useState([]);
   const [reviews, setReviews] = useState([]);
-  const [activeFilter, setActiveFilter] = useState('all');
+  const [activeFilter, setActiveFilter] = useState('featured');
+
+  // Synchronize theme with document attribute and localStorage
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('gaur_theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prev => prev === 'light' ? 'dark' : 'light');
+  };
 
   // Modals state
   const [selectedPackage, setSelectedPackage] = useState(null);
@@ -51,7 +66,7 @@ export default function App() {
       try {
         const [distsData, pkgsData, guidesData, revsData] = await Promise.all([
           fetchDestinations(),
-          fetchPackages('all'),
+          fetchPackages('featured'),
           fetchGuides(),
           fetchReviews()
         ]);
@@ -148,6 +163,8 @@ Please share itinerary details & available departure slots.`;
         onScrollToSection={scrollToSection}
         currency={currency}
         onCurrencyChange={setCurrency}
+        theme={theme}
+        onToggleTheme={toggleTheme}
       />
 
       {/* Hero Section */}
@@ -212,8 +229,11 @@ Please share itinerary details & available departure slots.`;
       {/* Footer with Image 1 Bottom Bar (+91 99718 59687 & gaur.tourtravel04@gmail.com) */}
       <Footer onSelectRegion={handleSelectRegion} />
 
-      {/* Floating WhatsApp Desk & Quick Dial */}
-      <FloatingActions />
+      {/* Interactive Cookies Consent & Privacy Control */}
+      <CookieConsent />
+
+      {/* Floating WhatsApp Desk, Call & Theme Switcher */}
+      <FloatingActions theme={theme} onToggleTheme={toggleTheme} />
 
       {/* Day-by-Day Itinerary Modal */}
       <ItineraryModal

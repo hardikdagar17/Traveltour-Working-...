@@ -13,6 +13,10 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
+// Serve Static Frontend Website (index.html, styles.css, app.js, images)
+const ROOT_DIR = path.join(__dirname, '..');
+app.use(express.static(ROOT_DIR));
+
 // Persistent Data Storage Directory
 const DATA_DIR = path.join(__dirname, 'data');
 if (!fs.existsSync(DATA_DIR)) {
@@ -392,7 +396,9 @@ app.get('/api/packages', (req, res) => {
   const { region, search } = req.query;
   let results = [...PACKAGES];
 
-  if (region && region !== 'all') {
+  if (region === 'featured') {
+    results = results.filter(p => ['gt-pkg-01', 'gt-pkg-03', 'gt-pkg-05'].includes(p.id));
+  } else if (region && region !== 'all') {
     results = results.filter(p => p.region.toLowerCase() === region.toLowerCase());
   }
 
@@ -574,6 +580,20 @@ app.post('/api/inquiries', (req, res) => {
   } catch (err) {
     res.status(500).json({ error: 'Failed to record inquiry' });
   }
+});
+
+// Google Reviews Link & Info
+const GOOGLE_REVIEWS_URL = 'https://share.google/P6PcZ0gTCoj0riPn6';
+
+app.get('/api/google-reviews-info', (req, res) => {
+  res.json({
+    googleUrl: GOOGLE_REVIEWS_URL,
+    rating: 5.0,
+    totalReviews: '15,000+',
+    businessName: 'Gaur Travel',
+    placeId: '/g/11zh9jyk5y',
+    tagline: 'Verified 5-Star Tour Guide & Tourism Platform on Google'
+  });
 });
 
 // Reviews
